@@ -1,0 +1,24 @@
+{% extends 'MainBundle:Default:sidebar.html.twig' %}
+
+{% block title %}
+
+  	panel
+	
+{% endblock %}
+
+{% block link %}
+
+  	{{ parent() }}
+	
+{% endblock %}
+
+{% block container %}
+        <h2 class="page-header">
+        	Twój panel sterowania! 
+        </h2>
+        <h3> 
+        	<small>Co chcesz teraz zrobić?</small>
+        </h3>
+         <a href="{{ path('newSurvey') }}">Nowa ankieta</a>  
+{% endblock %}
+

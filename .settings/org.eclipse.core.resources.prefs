@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//src/MainBundle/Controller/SecurityController.php=UTF-8
+encoding//src/MainBundle/Entity/Survey.php=UTF-8
+encoding//src/MainBundle/Form/LoginType.php=UTF-8
+encoding//src/MainBundle/Form/RegistrationType.php=UTF-8
+encoding//src/MainBundle/Resources/views/Default/panel.html.twig=UTF-8
+encoding//src/MainBundle/Resources/views/Security/login.html.twig=UTF-8
+encoding//src/MainBundle/Resources/views/Security/registration.html.twig=UTF-8
+encoding//src/MainBundle/Resources/views/Survey/showAllSurveys.html.twig=UTF-8
+encoding/<project>=UTF-8

@@ -1,0 +1,8 @@
+{% extends 'MainBundle::base.html.twig' %}
+{% form_theme form 'MainBundle:form:fields.html.twig' %}
+
+{% block container %}
+   Rejestracja
+   {{ form(form) }}
+{% endblock %}
+

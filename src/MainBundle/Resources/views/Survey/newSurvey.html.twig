@@ -1,0 +1,20 @@
+{% extends 'MainBundle:Default:sidebar.html.twig' %}
+{% form_theme surveyForm 'MainBundle:form:fields.html.twig' %}
+
+{% block title %}Kreator ankiety{% endblock %}
+
+{% block link %}
+  	{{ parent() }}
+{% endblock %}
+
+{% block container %}
+    <h1 class="page-header">
+    	 Nowa ankieta
+    </h1>    
+    <div class="row">
+        <div class="col-lg-12">     
+             {{  form(surveyForm) }}             
+        </div>                   
+    </div>               
+{% endblock %}
+
