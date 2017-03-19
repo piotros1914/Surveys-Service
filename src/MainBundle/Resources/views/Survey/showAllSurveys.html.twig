@@ -32,9 +32,16 @@
 						 <tr>
 						    <td>
 						    	<a href="{{ path('showSurvey', {'surveyId': item.id}) }}">{{ loop.index }}</a>
-    					</td>
-							<td>{{ item.title }}</td>
-                        	<td>{{ item.description }}</td>
+    						</td>
+							<td>
+							    {{ item.title }}
+							</td>
+                        	<td>
+                        	    {{ item.description }}
+                        	</td>
+                        	<td>
+                        		<a href="{{ path('delete', {'surveyId': item.id}) }}">Usuń</a>
+                        	</td>
 						 </tr>
 					 {% else %}
       					 <tr>
