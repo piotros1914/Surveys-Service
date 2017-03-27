@@ -12,14 +12,14 @@ class SurveyType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		
 		$builder->add('title', TextType::class, array(
-				'label' => 'Tytuł'
+				'label' => 'Tytuł ankiety'
 		));
 		$builder->add('description', TextareaType::class, array(
-				'label' =>'Opis'
+				'label' =>'Krótka charakterystyka'
 		));
 	
 		$builder->add('save', SubmitType::class, array(
-				'label' =>'Zapisz'			
+				'label' =>'Dodaj ankiete'			
 		));
 	}
 	

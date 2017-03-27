@@ -119,4 +119,28 @@ class Answer {
     {
         return $this->questionId;
     }
+
+    /**
+     * Set answerText
+     *
+     * @param string $answerText
+     *
+     * @return Answer
+     */
+    public function setAnswerText($answerText)
+    {
+        $this->answerText = $answerText;
+
+        return $this;
+    }
+
+    /**
+     * Get answerText
+     *
+     * @return string
+     */
+    public function getAnswerText()
+    {
+        return $this->answerText;
+    }
 }

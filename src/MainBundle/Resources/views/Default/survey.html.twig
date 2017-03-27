@@ -1,0 +1,27 @@
+{% extends 'MainBundle:Default:normalWebsite.html.twig' %}
+ {% form_theme form 'MainBundle:form:vertical.html.twig' %}
+
+
+{% block title %}
+
+  	Ankieta
+	
+{% endblock %}
+
+{% block link %}
+
+  	{{ parent() }}
+	
+{% endblock %}
+
+ 
+{% block headline %}
+	<h1>{{  survey.title }}</h1>             
+{% endblock %}
+
+{% block container %}    
+             {{  survey.description }}      
+             
+             {{ form(form) }}  
+{% endblock %}
+

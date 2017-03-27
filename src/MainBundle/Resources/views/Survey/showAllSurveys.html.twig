@@ -28,19 +28,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                     {% for item in survey %}
+                     {% for survey in surveys %}
 						 <tr>
 						    <td>
-						    	<a href="{{ path('showSurvey', {'surveyId': item.id}) }}">{{ loop.index }}</a>
+						    	<a href="{{ path('showSurvey', {'surveyId': survey.id}) }}">{{ loop.index }}</a>
     						</td>
 							<td>
-							    {{ item.title }}
+							    {{ survey.title }}
 							</td>
                         	<td>
-                        	    {{ item.description }}
+                        	    {{survey.description }}
                         	</td>
                         	<td>
-                        		<a href="{{ path('delete', {'surveyId': item.id}) }}">Usuń</a>
+                        		<a href="{{ path('delete', {'surveyId': survey.id}) }}">Usuń</a>
                         	</td>
 						 </tr>
 					 {% else %}

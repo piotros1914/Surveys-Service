@@ -3,13 +3,17 @@
 namespace MainBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
+ * @UniqueEntity(fields="email", message="Adres email jest już używany")
+ * @UniqueEntity(fields="username", message="Nazwa użytkownika już jest zajęta")
  */
 class User implements UserInterface
 {
@@ -25,45 +29,64 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=30, nullable=false)
+     * @ORM\Column(name="username", type="string", length=30)
+     * @Assert\NotBlank(message="Te pole nie może być puste")
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @ORM\Column(name="email", type="string", length=50)
+     * @Assert\NotBlank( message="Te pole nie może być puste")
+     * @Assert\Email(message="Wpisano nie prawdiłowy adresemail")
      */
     private $email;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="reg_date", type="datetime", nullable=true)
-     */
-    private $regDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=30, nullable=true)
-     */
-    private $role;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="last_login", type="datetime", nullable=true)
-     */
-    private $lastLogin;
-
+	/** 
+	 * @var string
+   	 * @Assert\NotBlank(message="Te pole nie może być puste")
+     * @Assert\Length(max = 4096)
+	 */
+    private $plainPassword;
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=45, nullable=false)
+     * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
+ 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=40)
+     */
+    private $role;
     
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="registrationDate", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $registrationDate;
+
+    /**
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="lastLogged", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $lastLogged;
+
+    
+    	public function __construct(){
+    		$this->role = 'ROLE_USER';
+    		$this->registrationDate = new \DateTime();
+    		$this->lastLogged = new \DateTime();
+    		
+    	}
+    
+    	
     	public function setUsername($username)
     	{
     		$this->username = $username;
@@ -105,78 +128,7 @@ class User implements UserInterface
     		return $this->email;
     	}
     
-    	/**
-    	 * Set regDate
-    	 *
-    	 * @param \DateTime $regDate
-    	 *
-    	 * @return User
-    	 */
-    	public function setRegDate($regDate)
-    	{
-    		$this->regDate = $regDate;
-    
-    		return $this;
-    	}
-    
-    	/**
-    	 * Get regDate
-    	 *
-    	 * @return \DateTime
-    	 */
-    	public function getRegDate()
-    	{
-    		return $this->regDate;
-    	}
-    
-    	/**
-    	 * Set role
-    	 *
-    	 * @param string $role
-    	 *
-    	 * @return User
-    	 */
-    	public function setRole($role)
-    	{
-    		$this->role = $role;
-    
-    		return $this;
-    	}
-    
-    	/**
-    	 * Get role
-    	 *
-    	 * @return string
-    	 */
-    	public function getRole()
-    	{
-    		return $this->role;
-    	}
-    
-    	/**
-    	 * Set lastLogin
-    	 *
-    	 * @param \DateTime $lastLogin
-    	 *
-    	 * @return User
-    	 */
-    	public function setLastLogin($lastLogin)
-    	{
-    		$this->lastLogin = $lastLogin;
-    
-    		return $this;
-    	}
-    
-    	/**
-    	 * Get lastLogin
-    	 *
-    	 * @return \DateTime
-    	 */
-    	public function getLastLogin()
-    	{
-    		return $this->lastLogin;
-    	}
-    
+     
     	/**
     	 * Set password
     	 *
@@ -208,9 +160,8 @@ class User implements UserInterface
     	}
     
     	public function getRoles() {
-    		// 		return $this->role;
-    		return array('ROLE_ADMIN');
-    
+
+    		return array($this->role);   
     	}
     
     
@@ -223,4 +174,86 @@ class User implements UserInterface
     
     	}
     
+    
+    /**
+     * Set registrationDate
+     *
+     * @param \DateTime $registrationDate
+     *
+     * @return User
+     */
+    public function setRegistrationDate($registrationDate)
+    {
+        $this->registrationDate = $registrationDate;
+
+        return $this;
     }
+
+    /**
+     * Get registrationDate
+     *
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return User
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set lastLogged
+     *
+     * @param \DateTime $lastLogged
+     *
+     * @return User
+     */
+    public function setLastLogged($lastLogged)
+    {
+        $this->lastLogged = $lastLogged;
+
+        return $this;
+    }
+
+    /**
+     * Get lastLogged
+     *
+     * @return \DateTime
+     */
+    public function getLastLogged()
+    {
+        return $this->lastLogged;
+    }
+	public function getPlainPassword() {
+		return $this->plainPassword;
+	}
+	public function setPlainPassword($plainPassword) {
+		$this->plainPassword = $plainPassword;
+		return $this;
+	}
+	
+    
+    
+}

@@ -1,8 +1,38 @@
-{% extends 'MainBundle::base.html.twig' %}
-{% form_theme form 'MainBundle:form:fields.html.twig' %}
+{% extends 'MainBundle:Default:normalWebsite.html.twig' %}
+{% form_theme form 'MainBundle:form:horizontal.html.twig' %}
 
-{% block container %}
-   Rejestracja
-   {{ form(form) }}
+{% block title %}  
+Rejestracja - Ankietka
 {% endblock %}
+
+{% block headline %}
+    <div class="jumbotron">
+          <h1>Dołącz do nas!</h1>
+          <p>Wypełnij formularz rejestracyjny, a następnie przeprowadzać swoją ankiete!</p>
+     </div> 
+{% endblock %}
+
+{% block container %}    
+        <div class="row" >
+        	<div class="col-sm-7">
+            	  {{ form_start(form) }} 	 
+                	        {{ form_row(form.user) }} 
+                            {% set terms_link %}<a title="Przeczytaj regulamin" href="{{ path('terms') }}">Regulamin</a>{% endset %}
+                            {% set general_terms %}{{ '  Przeczytałem %general_terms%'|trans({ '%general_terms%': terms_link })|raw }}{% endset %}
+                            <div class="form-group">
+                               <div class="col-sm-offset-4 col-sm-6">
+                                 <div class="checkbox">
+                                 	{{ form_widget(form.terms, { 'label':  general_terms|raw }) }}
+                                 	{{ form_errors(form.terms) }}
+                                 </div>
+                              </div>
+                             </div>
+                {{ form_end(form) }}     
+            </div>
+            <div class="col-sm-5">
+             	<img src="{{ asset('bundles/main/img/woman640.jpg') }}" alt="Pani" width="100%" height="100%"> 
+            </div>
+        </div>                         
+{% endblock %}
+
 

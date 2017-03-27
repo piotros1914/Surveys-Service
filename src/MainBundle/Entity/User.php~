@@ -36,34 +36,40 @@ class User implements UserInterface
      */
     private $email;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="reg_date", type="datetime", nullable=true)
-     */
-    private $regDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=30, nullable=true)
-     */
-    private $role;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="last_login", type="datetime", nullable=true)
-     */
-    private $lastLogin;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=45, nullable=false)
+     * @ORM\Column(name="password", type="string", length=45)
      */
     private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=30)
+     */
+    private $role;
     
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="registrationDate", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $registrationDate;
+
+    /**
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="lastLogged", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $lastLogged;
+
+    
+    	public function _contruct(){
+    		$this->role = "ROLE_USER";
+    		
+    	}
     	public function setUsername($username)
     	{
     		$this->username = $username;
@@ -105,78 +111,7 @@ class User implements UserInterface
     		return $this->email;
     	}
     
-    	/**
-    	 * Set regDate
-    	 *
-    	 * @param \DateTime $regDate
-    	 *
-    	 * @return User
-    	 */
-    	public function setRegDate($regDate)
-    	{
-    		$this->regDate = $regDate;
-    
-    		return $this;
-    	}
-    
-    	/**
-    	 * Get regDate
-    	 *
-    	 * @return \DateTime
-    	 */
-    	public function getRegDate()
-    	{
-    		return $this->regDate;
-    	}
-    
-    	/**
-    	 * Set role
-    	 *
-    	 * @param string $role
-    	 *
-    	 * @return User
-    	 */
-    	public function setRole($role)
-    	{
-    		$this->role = $role;
-    
-    		return $this;
-    	}
-    
-    	/**
-    	 * Get role
-    	 *
-    	 * @return string
-    	 */
-    	public function getRole()
-    	{
-    		return $this->role;
-    	}
-    
-    	/**
-    	 * Set lastLogin
-    	 *
-    	 * @param \DateTime $lastLogin
-    	 *
-    	 * @return User
-    	 */
-    	public function setLastLogin($lastLogin)
-    	{
-    		$this->lastLogin = $lastLogin;
-    
-    		return $this;
-    	}
-    
-    	/**
-    	 * Get lastLogin
-    	 *
-    	 * @return \DateTime
-    	 */
-    	public function getLastLogin()
-    	{
-    		return $this->lastLogin;
-    	}
-    
+     
     	/**
     	 * Set password
     	 *
@@ -208,9 +143,8 @@ class User implements UserInterface
     	}
     
     	public function getRoles() {
-    		// 		return $this->role;
-    		return array('ROLE_ADMIN');
-    
+
+    		return array($this->role);   
     	}
     
     
@@ -223,4 +157,76 @@ class User implements UserInterface
     
     	}
     
+    
+    /**
+     * Set registrationDate
+     *
+     * @param \DateTime $registrationDate
+     *
+     * @return User
+     */
+    public function setRegistrationDate($registrationDate)
+    {
+        $this->registrationDate = $registrationDate;
+
+        return $this;
     }
+
+    /**
+     * Get registrationDate
+     *
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return User
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set lastLogged
+     *
+     * @param \DateTime $lastLogged
+     *
+     * @return User
+     */
+    public function setLastLogged($lastLogged)
+    {
+        $this->lastLogged = $lastLogged;
+
+        return $this;
+    }
+
+    /**
+     * Get lastLogged
+     *
+     * @return \DateTime
+     */
+    public function getLastLogged()
+    {
+        return $this->lastLogged;
+    }
+}

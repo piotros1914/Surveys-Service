@@ -34,6 +34,13 @@ class Survey
      * @ORM\Column(name="description", type="text", nullable=false)
      */
     private $description;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="responesNumber", type="integer", nullable=true)
+     */
+    private $responesNumber;
 
     /**
      * @var integer
@@ -41,9 +48,19 @@ class Survey
      * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="addedDate", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $addedDate;
 
 
+    public function __construct(){   	
+    	$this->addedDate = new \DateTime();
 
+    }
     /**
      * Get id
      *
@@ -124,5 +141,36 @@ class Survey
     public function getUserId()
     {
         return $this->userId;
+    }
+    
+    public function setEmpty(){
+    	$this->description = ' Nowa ankieta  ';
+    	$this->title = ' Nowa ankieta ';
+    	$this->userId = '  User';
+    }
+    
+
+    /**
+     * Set addedDate
+     *
+     * @param \DateTime $addedDate
+     *
+     * @return Survey
+     */
+    public function setAddedDate($addedDate)
+    {
+        $this->addedDate = $addedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get addedDate
+     *
+     * @return \DateTime
+     */
+    public function getAddedDate()
+    {
+        return $this->addedDate;
     }
 }

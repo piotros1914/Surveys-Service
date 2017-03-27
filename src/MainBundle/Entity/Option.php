@@ -73,29 +73,7 @@ class Option {
         return $this->optionText;
     }
 
-    /**
-     * Set qestionId
-     *
-     * @param integer $qestionId
-     *
-     * @return Option
-     */
-    public function setQestionId($qestionId)
-    {
-        $this->qestionId = $qestionId;
-
-        return $this;
-    }
-
-    /**
-     * Get qestionId
-     *
-     * @return integer
-     */
-    public function getQestionId()
-    {
-        return $this->qestionId;
-    }
+  
 
     /**
      * Set surveyId

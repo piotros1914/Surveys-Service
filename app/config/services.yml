@@ -11,3 +11,9 @@ services:
 #          class: MaibBundle\Form\RegistrationType
 #          tags:
 #             -  { name: form.type }
+        
+     login_success_handler:
+        class: MainBundle\Handler\AuthenticationHandler
+        arguments:  ['@router', '@security.authorization_checker', '@doctrine']
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }

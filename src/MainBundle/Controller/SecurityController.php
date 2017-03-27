@@ -9,6 +9,7 @@ use MainBundle\Form\RegistrationType;
 use MainBundle\Form\LoginType;
 use MainBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use MainBundle\Form\Model\Registration;
 
 
 class SecurityController extends Controller{
@@ -26,6 +27,7 @@ class SecurityController extends Controller{
 		$lastUsername = $authenticationUtils->getLastUsername();
 		
 		$user = new User();
+		
 		$form = $this->createForm(LoginType::class, $user,
 					array(  'action' => $this->generateUrl('login')					
 				));
@@ -43,27 +45,43 @@ class SecurityController extends Controller{
 	 */
 	public function registrationAction(Request $request){
 		
-		$user = new User();
-		$form = $this->createForm(RegistrationType::class, $user);
+		//$user = new User();
+		//$form = $this->createForm(RegistrationType::class, $user);
+		$registration = new Registration();
+		$form = $this->createForm(RegistrationType::class, $registration);
 		
 		$form->handleRequest($request);
 		
-		if($form->isValid() && $form->isSubmitted()){					
+		if($form->isValid() && $form->isSubmitted()){	
+			$user = $registration->getUser();
+			$password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+			$user->setPassword($password);
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($user);
 			$em->flush();
 			
-			return $this->redirectToRoute('home');
+			return $this->redirectToRoute('registrationDone');
 		}
 		
 		return array ('form' => $form->createView());
 	}
 	/**
-	 * @Route("/registration_succes", name="registration_done")
+	 * @Route("/registration_succes", name="registrationDone")
 	 * @Template()
 	 */
-	public function registrationDoneAction(Request $request){
-		
-	return array ();
+	public function registrationDoneAction(Request $request){		
+		return array ();
 	}
+
+	/**
+	 * @Route("/terms", name="terms")
+	 * @Template()
+	 */
+	public function termsAction(){
+		
+	
+		return array();
+	}
+	
+	
 }

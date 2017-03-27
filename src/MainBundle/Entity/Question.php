@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table(name="question")
@@ -32,8 +33,14 @@ class Question {
 	 */
 	private $surveyId;
 	
-
-
+	private $options;
+	
+	public function __construct()
+	{
+		$this->options = new ArrayCollection();
+	}
+	
+	
     /**
      * Get id
      *
@@ -115,4 +122,14 @@ class Question {
     {
         return $this->surveyId;
     }
+    
+	public function getOptions() {
+		return $this->options;
+	}
+	
+	public function setOptions($options) {
+		$this->options = $options;
+		return $this;
+	}
+	
 }

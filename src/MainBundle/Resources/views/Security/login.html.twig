@@ -1,9 +1,24 @@
-{% extends 'MainBundle::base.html.twig' %}
+{% extends 'MainBundle:Default:normalWebsite.html.twig' %}
+{% form_theme form 'MainBundle:form:horizontal.html.twig' %}
 
-{% form_theme form 'MainBundle:form:fields.html.twig' %}
-{% block container %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}     
-    {{ form(form) }}     
+{% block title %}  
+	Logowanie - Ankietka
 {% endblock %}
+
+{% block headline %}
+    <div class="jumbotron">
+          <h1>Logowanie</h1>
+          <p>Jeżeli nie posiadasz jeszcze konta kliknij <a href="{{ path('registration') }}">tutaj</a></p>
+     </div> 
+{% endblock %}
+
+{% block container %}
+       
+    <div class="col-md-7">
+      {{ form(form) }}    
+      {% if error %}
+        <div class="col-md-offset-2 error"><p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p></div>
+    {% endif %}  
+    </div>  
+{% endblock %}
+

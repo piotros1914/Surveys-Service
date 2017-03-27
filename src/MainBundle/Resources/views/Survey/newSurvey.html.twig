@@ -1,5 +1,6 @@
 {% extends 'MainBundle:Default:sidebar.html.twig' %}
-{% form_theme surveyForm 'MainBundle:form:fields.html.twig' %}
+{% form_theme surveyForm 'MainBundle:form:horizontal.html.twig' %}
+
 
 {% block title %}Kreator ankiety{% endblock %}
 
@@ -14,8 +15,15 @@
     <div class="row">
         <div class="col-lg-12">     
              {{  form(surveyForm) }}        
-               {{  form(questionForm) }}              
+          
         </div>                   
-    </div>               
+    </div>          
+    
+       
+                         
+    
+         
 {% endblock %}
+
+       
 

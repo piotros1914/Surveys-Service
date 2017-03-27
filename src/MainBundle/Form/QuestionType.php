@@ -3,29 +3,63 @@ namespace MainBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use MainBundle\Services\QuestionFactory;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use MainBundle\Entity\Question;
 
 class QuestionType extends AbstractType{
 	
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		
-		$builder->add('questionText', TextType::class, array(
-				'label' => 'Pytanie'
-		));
+		
 		$builder->add('type', ChoiceType::class, array(
 				'choices'  => array(
-						'Maybe' => null,
-						'Yes' => true,
-						'No' => false,
+						'Tekst' => QuestionFactory::TEXT_QUESTION,
+						'Pojedynczy wybór' => QuestionFactory::SINGLE_CHOICE_QUESTION,		
+						'Wielokrotny wybór' => QuestionFactory::MULTIPLE_CHOICE_QUESTION
 				),
+				'label' =>'Rodzaj pytania'
 		));
+		$builder->add('questionText', TextareaType::class, array(
+				'label' => 'Pytanie'
+		));
+		
+		$builder->add('options', CollectionType::class, array(
+				'entry_type' => OptionType::class,
+				'allow_add'    => true,
+				'allow_delete' => true,
+				'by_reference' => false,
+				'prototype' => true
+		));
+		
 	
-		$builder->add('save', SubmitType::class, array(
-				'label' =>'Dodaj'			
+		$builder->add('addNextQuestion', SubmitType::class, array(
+				'label' =>'Dodaj kolejne pytanie',		
+				'attr' => array(
+						'class' => 'btn btn-default'
+				)
+		));
+		
+		$builder->add('endCreateSurvey', SubmitType::class, array(
+				'label' =>'Zakończ tworzenie ankiety',
+				'attr' => array(
+						'class' => 'btn btn-success pull-right'
+				)
 		));
 	}
+	
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults(array(
+				'data_class' => Question::class,
+		));
+	}
+	
 	
 	public function getName()
 	{
