@@ -1,0 +1,70 @@
+{% extends 'MainBundle:Template:normalWebsite.html.twig' %}
+
+
+{% block title %}
+Ankietka
+{% endblock %}
+
+{% block link %}
+{{ parent() }}
+{% endblock %}
+
+
+{% block nav %}
+<nav class="navbar navbar-default  navbar-fixed-top">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="{{ path('home') }}"> 	<img src="{{ asset('bundles/main/img/ankietka13.png') }}" alt="Ankieta" width="90%" height="90%">  </a>
+		</div>
+
+	
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    				<li class="dropdown"><a href="#" class="dropdown-toggle"
+    					data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }}<b
+    						class="caret"></b></a>
+    					<ul class="dropdown-menu message-dropdown">
+    						<li><a href="#"><i class="fa fa-fw fa-user"></i> Profil</a></li>
+    						<li><a href="{{ path('panel') }}"><i
+    								class="fa fa-list-alt" aria-hidden="true"></i>&nbsp; Panel
+    								ankiet</a></li>
+    						<li class="divider"></li>
+    						<li><a href="{{ path('logout') }}"><i
+    								class="fa fa-fw fa-power-off"></i> Wyloguj się</a></li>
+					</ul></li>
+				{% else %}
+				
+    				<li>
+    					<ul class="nav navbar-nav" style="float: right">
+    						<li><a href="{{ path('login') }}"><i
+    								class="fa fa-fw fa-user"></i> Logowanie</a></li>
+    						<li><a href="{{ path('registration') }}"><i
+    								class="fa fa-user-plus" aria-hidden="true"></i> Rejestracja</a></li>
+    					</ul>
+    
+    				</li>
+				
+				{% endif %}
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+{% endblock %}
+
+{% block headline %}
+{% endblock %}
+
+{% block container %}
+
+{% endblock %}	

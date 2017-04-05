@@ -1,13 +1,482 @@
-{% extends 'MainBundle:Default:normalWebsite.html.twig' %}
+{% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
 
-{% block title %}  
-Regulamin korzystania z serwisu ankietka
+
+{% block title %}
+Regulamin serwisu - Ankietka
 {% endblock %}
 
-{% block headline %}
-	<h1>Regulamin</h1>
+{% block link %}
+{{ parent() }}
+<style type="text/css">
+body {
+	background: url("{{ asset('bundles/main/img/apple.jpg')}}") no-repeat
+		center center fixed;
+	height: 100%;
+	background-size: cover;
+}
+</style>
 {% endblock %}
 
 {% block container %}
-Punkt 1
+
+
+<div class="col-md-10 col-md-offset-1 top-buffer">
+	<div class="panel panel-default panel-transparent">
+		<div class="panel-heading">Regulamin</div>
+		<div class="panel-body">
+			<h2></h2>
+			<div id="article">
+				<p>
+					REGULAMIN SERWISU ANKIETKA<br /> I. POSTANOWIENIA OGÓLNE<br /> <br />
+					1. Definicje:<br /> <br /> a. Regulamin - niniejszy regulamin
+					dotyczy serwisu ankietka<br /> <br /> b. Usługodawca - Właściciel
+					serwisu Ankietka - Patryk Piotrowski<br /> <br /> c. Usługobiorca
+					- osoba fizyczna, która korzysta z Usługi świadczonej drogą
+					elektroniczną przez Usługodawcę.<br /> <br /> d. Usługi -
+					wszelkie usługi świadczone drogą elektroniczną przez Usługodawcę na
+					rzecz Usługobiorców w oparciu o niniejszy Regulamin.<br /> <br />
+					e. Adres elektroniczny - oznaczenie systemu teleinformatycznego
+					umożliwiające porozumiewanie się za pomocą środków komunikacji
+					elektronicznej, w szczególności poczty elektronicznej.<br /> <br />
+					f. Informacja handlowa - każda informacja przeznaczona bezpośrednio
+					lub pośrednio do promowania towarów, usług lub wizerunku
+					przedsiębiorcy, z wyłączeniem informacji umożliwiającej
+					porozumiewanie się za pomocą środków komunikacji elektronicznej z
+					określoną osobą oraz informacji o towarach i usługach niesłużącej
+					osiągnięciu efektu handlowego pożądanego przez podmiot, który zleca
+					jej rozpowszechnianie, w szczególności bez wynagrodzenia lub innych
+					korzyści od producentów, sprzedawców i świadczących usługi.<br />
+					<br /> g. System teleinformatyczny - zespół współpracujących ze
+					sobą urządzeń informatycznych i oprogramowania, zapewniający
+					przetwarzanie i przechowywanie, a także wysyłanie i odbieranie
+					danych poprzez sieci telekomunikacyjne za pomocą właściwego dla
+					danego rodzaju sieci urządzenia końcowego w rozumieniu ustawy Prawo
+					telekomunikacyjne.<br /> <br /> h. Świadczenie usługi drogą
+					elektroniczną - wykonanie usługi, które następuje przez wysyłanie i
+					odbieranie danych za pomocą systemów teleinformatycznych, na
+					indywidualne żądanie Usługobiorcy, bez jednoczesnej obecności
+					stron, przy czym dane te są transmitowane za pośrednictwem sieci
+					publicznych w rozumieniu ustawy Prawo telekomunikacyjne. <br />
+					<br />2. Niniejszy regulamin określa ogólne zasady funkcjonowania
+					serwisu ankietka, w tym ogólne zasady realizacji przez Usługodawcę
+					usług świadczonych drogą elektroniczną w rozumieniu Ustawy z dnia
+					18 lipca 2002 r. o świadczeniu usług drogą elektroniczną (Dz.U. z
+					2002 r. Nr 144, poz. 1204 z późn. zm. z późn.zm.).<br /> <br />
+					3. Niniejszy Regulamin udostępniony jest przez Usługodawcę
+					nieodpłatnie przed zawarciem umowy o świadczenie usług drogą
+					elektroniczną, a także na żądanie Usługobiorcy w taki sposób, który
+					umożliwia pozyskanie, odtwarzanie i utrwalanie treści regulaminu za
+					pomocą systemu teleinformatycznego, którym posługuje się
+					Usługobiorca.<br /> <br /> 4. Do pełnego oraz prawidłowego
+					korzystania z Usług niezbędne jest posiadanie urządzeń
+					pozwalających na korzystanie z zasobów internetu, skrzynki
+					pocztowej e-mail oraz przeglądarki zasobów internetowych
+					umożliwiającej wyświetlanie stron www (zaleca się korzystanie z
+					następujących przeglądarek internetowych w podanych wersjach lub
+					nowszych, z włączona obsługą plików 'cookies': Internet Explorer
+					7.0, Chrome 20, Safari 5, MozillaFirefox15, Opera 11 lub ich nowsze
+					wersje).<br /> <br /> 
+					
+					II. USŁUGOBIORCA<br /> <br /> 
+					
+					1. Status Usługobiorcy uzyskuje każda korzystająca z Serwisów osoba fizyczna
+					posiadająca w niezbędnym zakresie zdolność do czynności prawnych.
+					Korzystanie z Serwisów jest dobrowolne. Korzystając z Serwisów dana
+					osoba oświadcza, iż zapoznała się w całości z tekstem Regulaminu
+					oraz akceptuje w całości i bezwarunkowo wszystkie jego
+					postanowienia. W przypadku braku akceptacji któregokolwiek z
+					postanowień Regulaminu dana osoba jest zobowiązana do
+					niekorzystania z Serwisów.<br /> <br /> 
+					
+					2. Dostęp do Serwisów dla
+					Usługobiorców możliwy jest na dwóch poziomach:<br /> <br /> a.
+					Usługobiorcy niezarejestrowanego (gdzie dostępne będzie korzystanie
+					z zawartości Serwisów, o której mowa w pkt XI Regulaminu
+					poniżej[Udostępnianie zawartości Serwisu] wraz z usługą Komentarzy
+					opisanych w pkt. XI Regulaminu [Komentarze]);<br /> <br /> b.
+					Usługobiorcy zarejestrowanego (gdzie dostępne będzie korzystanie z
+					zawartościSerwisów, o której mowa w pkt XI ust. 1Regulaminu poniżej
+					[Udostępnianie zawartości Serwisu]oraz usług Komentarzy
+					[Komentarze],Forum [Forum] oraz Usługi Social Reader [Usługa Social
+					Reader]opisanych w pkt. XI Regulaminu).<br /> <br /> 
+					
+					3. Poziomy
+					statusu Usługobiorcy określają zakres uprawnień w dostępie do
+					funkcjonalności, w szczególności Usług, dostępnych w ramach
+					Serwisów.<br /> <br /> 
+					
+					III. REJESTRACJA<br /> <br /> 
+					
+					1. W celu dokonania rejestracji wymagane jest dokonanie przez
+					zainteresowanego Usługobiorcę wypełnienia odpowiedniego formularza
+					wygenerowanego przez Serwis (dalej "Formularz"). Formularz wymaga:<br />
+					<br /> a. udostępnienia przez zainteresowanego Usługobiorcę
+					danych, o które zostanie<br /> poproszony w ramach Formularza.<br />
+					<br /> b. zaproponowania hasła, przy czym hasło musi się składać
+					się z co najmniej 6 znaków. Użytkownik jest wyłącznie
+					odpowiedzialny za wszelkie działania związane z posługiwaniem się
+					hasłem do swojego Profilu. Usługobiorca jest zobowiązany do
+					utrzymania hasła w ścisłej tajemnicy.<br /> <br /> 
+					
+					2. Aby Usługobiorca mógł się zarejestrować
+					wymagane jest zaznaczenie opcji akceptacji Regulaminu, bez których świadczenie Usług
+					przez Usługodawcę przewidzianych dla zarejestrowanych Usługobiorców
+					nie będzie możliwe. Pozostałe opcje są fakultatywne i nie stanowią
+					warunku niezbędnego do rejestracji w Serwisie i dostępu do Usług
+					przeznaczonych dla zarejestrowanych Usługobiorców.<br /> <br />
+					
+					3. Usługobiorca, dokonując rejestracji, jest wyłącznie
+					odpowiedzialny za prawidłowość, treść oraz formę wszelkich
+					przekazanych przez siebie danych oraz informacji. Podawanie
+					nieprawdziwych danych oraz informacji, w szczególności danych osób
+					trzecich lub danych fikcyjnych, jest zakazane. Usługobiorca
+					podający takie dane lub informacje ponosi wszelką i wyłączną
+					odpowiedzialność z tego tytułu, w szczególności względem
+					Usługodawcy.<br /> <br /> 
+					
+					4. Z chwilą dokonania rejestracji
+					Usługobiorca wyraża zgodę na:<br /> <br /> a. gromadzenie,
+					przetwarzanie oraz wykorzystywanie przez Usługodawcę oraz podmioty
+					trzecie - wyłącznie w zakresie niezbędnym dla świadczenia usług w
+					ramach Serwisów - wszelkich przekazanych przez siebie danych
+					osobowych. Szczegółowe postanowienia dotyczące danych osobowych i
+					ich ochrony znajdują się w pkt. XII Regulaminu<br /> <br /> b.
+					otrzymywanie pocztą elektroniczną na podany w formularzu
+					rejestracyjnym adres e-mail oraz na swoje wewnętrzne konto w ramach
+					Serwisów komunikatów systemowych.<br /> <br /> 
+					
+					IV. SPOSÓB KORZYSTANIA PRZEZ USŁUGOBIORCÓW Z SERWISÓW<br /> <br /> 
+					1.Usługobiorca zobowiązany jest do korzystania z Serwisów w sposób
+					zgodny z Regulaminem, przepisami prawa, zasadami współżycia
+					społecznego, zwyczajami przyjętymi w internecie (netykieta) oraz
+					dobrymi obyczajami. Usługobiorca jest w szczególności zobowiązany
+					do:<br /> <br /> a. powstrzymywania się od działań mogących
+					utrudnić lub zakłócić funkcjonowanie Serwisów, w szczególności
+					mogących utrudnić korzystanie z Serwisów przez innych
+					Usługobiorców;<br /> <br /> b. powstrzymywania się od działań
+					mogących naruszyć prywatność innych Usługobiorców, w szczególności
+					zbierania, przetwarzania oraz rozpowszechniania informacji o innych
+					Usługobiorcach bez ich jednostkowo wyrażonej zgody, jak również
+					powstrzymywania się od naruszania tajemnicy korespondencji;<br />
+					<br /> c. niewykorzystywania Serwisów - również pośrednio - w celu
+					rozsyłania niezamówionej informacji handlowej;<br /> <br /> d.
+					aktualizacji danych niezbędnych do kontaktu z danym Usługobiorcom;<br />
+					<br /> e. powstrzymywania się od działań naruszających dobre imię
+					Usługodawcy oraz podmiotów z nim współpracujących;<br /> <br />
+					f. niepodszywania się pod inne osoby;<br /> <br /> g.
+					powstrzymywania się od innych zachowań, które mogłyby zostać uznane
+					przez Usługodawcę za zachowania oczywiście niepożądane, naganne lub
+					sprzeczne z przeznaczeniem Serwisów.<br /> <br /> 
+					
+					V.WYREJESTOWANIE SIĘ USŁUGOBIORCY Z SERWISÓW<br /> <br /> 
+					1.
+					Usługobiorcy przysługuje w każdej chwili prawo do żądania
+					wyrejestrowania się (dezaktywacji posiadanego przez siebie Konta w
+					Serwisach). Żądanie takie winno zostać wysłane przez
+					zainteresowanego Usługobiorcę za pośrednictwem wiadomości e-mail
+					wysłanej z adresu podanego przez niego podczas rejestracji Konta na
+					adres email znajdujący się w zakładce "Kontakt" dowolnego Serwisu
+					lub listownie przesyłką poleconą na adres siedziby Usługodawcy.
+					Usługodawca zobowiązuje się w takiej sytuacji do dezaktywacji
+					Profilu danego Użytkownika w terminie nie dłuższym niż 7 dni
+					roboczych od dnia doręczenia stosownego wniosku.<br /> <br />
+					 
+					2.W przypadku usunięcia na wniosek Usługobiorcy którejkolwiek z
+					danych osobowych podawanych w Formularzu lub cofnięcia przez
+					użytkownika zgody na przetwarzanie danych osobowych w związku z
+					usługami świadczonymi w ramach Serwisów lub cofnięcia akceptacji
+					dla Regulaminu lub "Polityki Prywatności" dalsze świadczenie usług
+					przez Usługodawcę jest<br /> niemożliwe i tym samym skutkuje
+					dezaktywacją Konta danego Usługobiorcy.<br /> <br /> 
+					
+					3.Dezaktywację Konta może spowodować również naruszenie przez danego
+					Usługobiorcę któregokolwiek z postanowień Regulaminu, w
+					szczególności niezgodność z prawdą oświadczeń danego Usługobiorcy,
+					naruszenie przez niego praw innych Usługobiorców Usługodawcy, lub
+					podmiotów trzecich.<br /> <br /> 
+					
+					4. Decyzja Usługodawcy w przedmiocie dezaktywacji Konta jest komunikowana danemu
+					Usługobiorcy za pośrednictwem wiadomości wysłanej danemu
+					Usługobiorcy przez Usługodawcę na adres email podany podczas
+					rejestracji.<br /> <br />
+					
+					 VI. PRAWA WYŁĄCZNE<br /> <br /> 
+					 
+					 1. Wszystkie materiały znajdujące się w zasobach Serwisów, obejmujące
+					w szczególności teksty, zdjęcia, infografiki, materiały filmowe,
+					dźwiękowe, rozwiązania nawigacyjne, wybór i układ treści oraz
+					grafik, kompilacje oraz bazy danych, rankingi, zestawienia i
+					raporty stanowią przedmiot praw na dobrach niematerialnych do
+					utworów lub baz danych Usługodawcy, Usługobiorców lub osób trzecich
+					i podlegają ochronie na podstawie ustawy o prawie autorskim i
+					prawach pokrewnych, ustawy o ochronie baz danych oraz konwencji
+					międzynarodowych, których stroną jest Rzeczpospolita Polska.<br />
+					<br /> 
+					
+					2. Niedopuszczalne jest korzystanie przez Usługobiorców z
+					materiałów, o których mowa w pkt. 1 niniejszego rozdziału w
+					zakresie wykraczającym poza użytek dozwolony na gruncie
+					obowiązujących przepisów prawa. W szczególności zabronione jest
+					zwielokrotnianie tych materiałów i umieszczanie ich w innych
+					serwisach internetowych lub udostępnianie osobom trzecim w inny
+					sposób w całości lub w części wykraczającej poza dozwoloną prawem;
+					umieszczanie odesłań do Serwisów w taki sposób, aby utrudnione lub
+					niemożliwe było poznanie źródła pochodzenia materiałów;
+					zwielokrotnianie materiałów na nośnikach oraz rozpowszechnianie i
+					wprowadzanie do obrotu tak wytworzonych egzemplarzy;
+					rozpowszechnianie opracowań materiałów lub szaty graficznej
+					niezależnie od przyczyn lub celu takiego rozpowszechniania.
+					Postanowienia powyższe stosuje się odpowiednio do szaty graficznej
+					Serwisów.<br /> <br /> 
+					
+					3. Oznaczenia umieszczane w Serwisach
+					podlegają ochronie na podstawie ustawy - Prawo własności
+					przemysłowej oraz konwencji międzynarodowych, których stroną jest
+					Rzeczpospolita Polska.<br /> <br /> 
+					
+					VII. POSTĘPOWANIE REKLAMACYJNE<br /> <br /> 
+					
+					1. Usługobiorca ma prawo do składania reklamacji w zakresie Usług świadczonych przez Usługodawcę w ramach
+					Serwisów.<br /> <br /> 
+					
+					2. Podmiotem uprawnionym do rozpatrywania
+					reklamacji jest Usługodawca.<br /> <br /> 
+					
+					3. Reklamacje powinny być przesyłane na adres znajdujący się w zakładce danego Serwisu
+					"Kontakt" w formie pisemnej lub elektronicznej (wiadomość mailowa w
+					polu temat wiadomości powinna zawierać słowo: "reklamacja") i
+					powinny zawierać: (1) przedmiot reklamacji oraz uzasadnienie (2)
+					oznaczenie Usługobiorcy (imię, nazwisko, adres, adres e-mail).
+					Powyższe przesłanki stanowią warunek obligatoryjny rozpatrzenia
+					przez Usługodawcę reklamacji.<br /> <br /> 
+					4. Reklamacje będą
+					rozpatrywane przez Usługodawcę w ciągu 14 dni od ich
+					otrzymania.Decyzja Usługodawcy dotycząca reklamacji będzie
+					przekazywana Usługobiorcy na adres e-mail wskazany w reklamacji.<br />
+					<br /> 
+				</p>
+
+				<p>
+					VIII. ZAWARCIE I ROZWIAZANIE UMOWY<br /> <br /> 
+					1. Umowa o świadczenie usług drogą elektroniczną zostaje przez Usługobiorcę
+					zawarta wmomencie rozpoczęcia świadczenia Usługi przez Usługodawcę
+					tj. (1) z momentem wejścia na stronę URL danego Serwisu w przypadku
+					usług, do korzystania z których nie jest wymagana rejestracja, (2)
+					po zarejestrowaniu lub logowaniu w przypadku usług, do świadczenia
+					których wymagana jest rejestracja.<br /> <br /> 
+					
+					2. Umowa o
+					świadczenie usług drogą elektroniczną ulega rozwiązaniu z chwilą:
+					(1) opuszczenia przez Usługobiorcę danego Serwisu, (2)
+					wyrejestrowania się lub wylogowania się z Serwisów przez
+					Usługobiorcę, (3) decyzji Usługodawcy o rozwiązaniu umowy, która
+					może być spowodowana w szczególności (a) naruszeniami postanowień
+					Regulaminu ze strony Usługobiorcy, (b) odmową Usługobiorcy
+					udzielenia Usługodawcy niezbędnych zgód lub danych niezbędnych do
+					świadczenia danej Usługi, (c) problemami technicznymi po stronie
+					Usługobiorcy, powodującymi trudności w świadczeniu dla niego Usługi
+					przez Usługodawcę.<br /> <br /> 
+					
+					
+					IX. PRAWA I OBOWĄZKI USŁUGODAWCYI USŁUGOBIORCY<br /> <br /> 
+					1. Usługodawca dołoży wszelkich
+					starań w celu zapewnienia prawidłowego działania Serwisów i jego
+					dostępności przez całą dobę, nie ponosi jednak odpowiedzialności za
+					jakiekolwiek szkody wynikające z nieprawidłowego funkcjonowania
+					Serwisów ze względów technicznych.<br /> <br /> 2. Usługodawca
+					zastrzega sobie prawo do:<br /> a. zmiany parametrów Kont
+					Usługobiorców;<br /> b. cech użytkowych i możliwości Serwisów, w
+					szczególności zakresu oraz rodzaju Usług i funkcjonalności;<br />
+					c. okresowego wyłączenia Serwisów bez uprzedniego powiadomienia,
+					związanego w szczególności z jego modyfikacją;<br /> d. usunięcia
+					z ważnych powodów całej zawartości serwerów Serwisów lub
+					całkowitego zaprzestania świadczenia Usług, po uprzednim
+					powiadomieniu Użytkowników na stronach Serwisów;<br /> e.
+					zaprzestania świadczenia Usług w ramach Serwisów w stosunku do
+					Usługobiorcy,<br /> który narusza postanowienia Regulaminu.<br />
+					<br /> 
+					3. Usługodawca nie świadczy usług archiwizowania plików,
+					danych lub informacji.<br /><br /> 4. Usługobiorca zobowiązany jest do
+					korzystania z Serwisów zgodnie z jego przeznaczeniem, dobrymi
+					obyczajami, prawem oraz przestrzegania zasad Regulaminu.<br /> <br />
+					
+					
+					X. ODPOWIEDZIALNOŚĆ<br /> <br /> 
+					
+					1. Niezależnie od pozostałych
+					postanowień Regulaminu, Usługodawca nie ponosi odpowiedzialności
+					za:<br /> <br /> a. formę oraz treść, w szczególności poprawność
+					treści oraz materiałów umieszczonych w Serwisach przez
+					Usługobiorców;<br /> b. umieszczone w Serwisach treści oraz
+					materiały o charakterze reklamowym lub marketingowym niepochodzące
+					od Usługodawcy, w szczególności dotyczące produktów oraz usług;<br />
+					c. jakiekolwiek skutki wykorzystania przez Usługobiorcę lub inną
+					osobę treści lub materiałów uzyskanych za pośrednictwem Serwisów;<br />
+					d. prawidłowość działania zamieszczonych na łamach Serwisów
+					narzędzi wyszukiwawczych, w szczególności za wszelkie korzyści
+					utracone przez Usługobiorcę w związku z nieprawidłowym ich
+					działaniem;<br /> e. utratę jakichkolwiek danych zamieszczonych
+					przez Usługobiorców na łamach Serwisów, bądź za jego pośrednictwem
+					przekazywanych innym Usługobiorcom, w szczególności utratę
+					spowodowaną działaniem czynników zewnętrznych;<br /> f.
+					prawidłowość danych udostępnionych przez Usługobiorcę innym
+					Usługobiorcom, jak również sposób ich wykorzystania przez innych
+					Usługobiorców;<br /> g. uzyskanie przez podmioty trzecie dostępu
+					do zbioru danych udostępnionych przez Usługobiorców w następstwie
+					usunięcia bądź pominięcia stosowanych przez Usługodawcę
+					zabezpieczeń powyższych danych.<br /> h. skutki zainstalowania
+					przez Usługobiorców programów pobieranych za pośrednictwem
+					Serwisów;<br /> i. niezgodne z prawem bądź licencją wykorzystanie
+					programów pobieranych przez Usługobiorców za pośrednictwem
+					Serwisów.<br /> <br /> 
+					
+					2. Z zastrzeżeniem postanowień Regulaminu
+					wyłączających odpowiedzialność Usługodawcy, wszelka jego
+					odpowiedzialność, niezależnie od jej podstawy prawnej, jest
+					ograniczona do przypadków wyrządzenia szkody z winy umyślnej
+					Usługodawcy oraz do wysokości poniesionej szkody, z wyłączeniem
+					utraconych korzyści.<br /> <br /> 
+					
+					3. Korzystanie z Serwisów, w
+					szczególności z wszelkich zamieszczonych przez Usługobiorców na ich
+					łamach treści oraz materiałów, odbywa się na wyłączne ryzyko
+					Usługobiorcy. Usługodawca nie udziela jakiejkolwiek gwarancji do
+					treści oraz materiałów zamieszczanych na łamach Serwisów przez
+					Usługobiorców, w szczególności co do ich użyteczności, przydatności
+					do określonego celu, wartości, kompletności, nie ponosząc w tym
+					zakresie jakiejkolwiek odpowiedzialności.<br /> <br /> 
+					
+					
+					
+					4. Usługodawca jest uprawniony do
+					udostępnienia uprawnionym organom państwowym wszystkich powyższych
+					treści, materiałów oraz danych, w tym adresów IP Usługobiorców,
+					którzy korzystali z Serwisów w określony sposób, w szczególności,
+					gdy jest to niezbędne w celu zapobiegania lub ścigania przestępstw.
+					W takiej sytuacji Usługodawca nie opowiada także za ewentualne
+					zablokowanie dostępu do określonych danych i informacji.<br /> <br />
+					
+					5. Jakakolwiek odpowiedzialność odszkodowawcza Usługodawcy związana
+					z działaniami lub zaniechaniami określonymi w pkt. 5 powyżej jest
+					wyłączona.<br /> <br /> 
+					
+					XI. POLITYKA PRYWATNOŚĆI<br /><br /> 
+					
+					1. Niniejszy punkt XII Regulaminu określa zasady
+					gromadzenia przetwarzania i wykorzystywania informacji, w tym
+					danych osobowych Usługobiorców Serwisów.<br /> <br /> 
+					
+					2.Usługodawca traktuje ochronę prywatności, w tym ochronę danych
+					osobowych Usługobiorców priorytetowo i dokłada wszelkich starań,
+					aby prywatność ta była chroniona. Usługodawca stosuje wszelkie
+					środki ostrożności, aby przekazywane dane osobowe przez
+					Usługobiorców Serwisów były chronione przed utratą, zniszczeniem,
+					ujawnieniem, dostępem osób niepowołanych lub niewłaściwym ich
+					wykorzystaniem. Odpowiednimi działaniami użytkownicy mogą
+					przyczynić się do zwiększenia bezpieczeństwa swoich danych
+					osobowych w Internecie (m.in. poprzez częstą zmianę hasła
+					dostępowego, stosowania w nich kombinacje liter i cyfr).<br /></br>
+					
+					3. Usługodawca przetwarza dane
+					osobowe na zasadach w niniejszym dokumencie wskazanych i w zakresie
+					w jaki zostały one Usługodawcy udostępnione przez Usługobiorcę. <br /> <br /> 
+				
+					4. Usługobiorcom Serwisów przysługują wynikające z przepisów ustawy
+					z dnia 29 sierpnia 1997 roku o ochronie danych osobowych (tekst
+					jedn.: Dz.U. z 2002r. Nr 101, poz. 926 z późn. zm.) uprawnienia
+					informacyjno- kontrolne, korekcyjne, a także zakazowe w
+					szczególności prawo do wniesienia pisemnego, umotywowanego żądania
+					zaprzestania przetwarzania danych osobowych ze względu na swoją
+					szczególną sytuację, a także wniesienia sprzeciwu wobec
+					przetwarzania swoich danych w sytuacjach w przepisach określonych.
+				    <br /> <br /> 
+				    
+	  				5. Serwis korzysta z tzw. cookies aby lepiej spełniać
+					oczekiwania użytkowników. Można zablokować zapisywanie cookies,
+					zmieniając ustawienia przeglądarki. </br></br> 
+					
+					6. Dane Usługobiorców nie
+					są przez Usługodawcę sprzedawane ani użyczane. Takie czynności mogą
+					być dokonywane przez Usługodawcę jedynie za uprzednim wyraźnym
+					zezwoleniem Usługobiorcy.<br /> <br /> 
+					
+					7. Usługodawca ma prawo i
+					obowiązek udzielić informacje o posiadanych danych osobowych
+					Usługobiorców organom państwa, uprawnionym do ich otrzymania na
+					podstawie odrębnych przepisów prawa, na potrzeby prowadzonych przez
+					nie postępowań.<br /> <br />
+					
+					8. Usługodawca nie odpowiada za
+					zasady polityki prywatności stron www, na które będzie wchodził
+					Usługobiorca poprzez linki zamieszczone na stronie danego Serwisu
+					oraz zasady polityk prywatności podmiotów trzecich świadczących na
+					mocy porozumień zawartych z Usługodawcą za pośrednictwem danego
+					Serwisu usługi na rzecz Usługobiorców w imieniu własnym i na własną
+					rzecz (podmioty te określają swoje polityki prywatności
+					samodzielnie).<br /> <br /> 
+					
+					9. Wszelkie zmiany dotyczące
+					postanowień w ramach Polityki Prywatności, spowodowane w
+					szczególności wzbogaceniem katalogu usług oferowanych w ramach
+					danego Serwisu, modernizacji Serwisu, zmianami w systemie prawa w
+					zakresie ochrony prywatności, będą komunikowane Usługobiorcom
+					poprzez zmieszczenie informacji na stroniedanego Serwisu oraz
+					poprzez przesłanie na adres mailowy podany podczas rejestracji,
+					odpowiedniej informacji. Wszelkie zmiany wchodzić będą w życie w
+					terminie nie krótszym niż 7 dni od momentu poinformowania
+					Usługobiorcy o planowanych zmianach.<br /> <br /> 
+					
+					XII.POSTANOWIENIA KOŃCOWE<br /> <br /> 
+					
+					1. Usługodawcy przysługuje w
+					każdej chwili prawo do zmiany zasad korzystania z Serwisów oraz
+					świadczonych w jego ramach usług, w szczególności zmiany
+					postanowień Regulaminu ze skutkiem wejścia w życie wraz z
+					publikacją ujednoliconego tekstu Regulaminu na łamach Serwisów, bez
+					konieczności udzielenia jakiegokolwiek uzasadnienia takiej zmiany.
+					Korzystanie przez Usługobiorcę z Serwisów po wprowadzeniu
+					którejkolwiek z powyższych zmian jest równoznaczne z ich całkowitą
+					oraz bezwarunkową akceptacją.
+				</p>
+
+				<p>
+					2.&nbsp;<span>Usługodawca zastrzega sobie prawo do
+						ograniczenia wybranym Usługobiorcom</span><span>&nbsp;dostępu do
+						części lub całości prezentowanych w Serwisach</span><span>&nbsp;treści
+						w przypadku stosowania przez tych Usługobiorców sprzętu lub
+						oprogramowania wpływającego na sposób odbioru treści
+						prezentowanych w Serwisach</span><span>, w tym w szczególności
+						ograniczającego lub wyłączającego publikację określonych treści z
+						Serwisów</span><span>.</span>
+				</p>
+
+				<p>
+					3. Informacja dotycząca zmian Regulaminu będzie komunikowana
+					Usługobiorcom drogą elektroniczną.<br /> <br /> 
+					
+					4. W przypadku stwierdzenia, że którekolwiek z postanowień Regulaminu jest z
+					jakichkolwiek powodów, w części lub w całości, dotknięte sankcją
+					nieważności, Usługodawca zobowiązuje się do dokonania takich zmian
+					jego treści, by nieważność ową usunąć. Nieważność jednego z
+					postanowień Regulaminu nie ma wpływu na ważność pozostałych jego
+					postanowień.<br /> <br /> 
+					
+					5. Usługodawcy przysługuje
+					nieograniczone prawo przenoszenia praw oraz obowiązków wynikających
+					z Regulaminu na podmioty trzecie.<br /> <br /> 
+					
+					6. Ewentualne
+					spory mogące powstać w związku ze stosowaniem Regulaminu
+					rozstrzygane będą przez właściwy sąd powszechny.
+				</p>
+				<p>
+					7. Regulamin niniejszy wchodzi w życie z dniem <span>01.05.2017r.</span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 {% endblock %}
+

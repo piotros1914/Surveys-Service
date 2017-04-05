@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class RegistrationType extends AbstractType{
 	
-// 	public function buildForm(FormBuilderInterface $builder, array $options){
+
 		
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
@@ -23,7 +23,10 @@ class RegistrationType extends AbstractType{
 			
 		));
 		$builder->add('save', SubmitType::class, array(
-				'label' =>'Utwórz konto'
+				'label' =>'Utwórz konto',
+				'attr' => array(
+						'class' => 'btn btn-success btn-sm'
+				)
 		
 		));
 	}

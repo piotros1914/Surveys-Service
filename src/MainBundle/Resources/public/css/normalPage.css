@@ -1,0 +1,31 @@
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background: white;
+}
+
+.spacer {
+	flex: 1;
+}
+footer {
+	background: #e7e7e7;
+	padding-bottom: 10px
+}
+
+.vertical-center {
+	display: flex;
+	align-items: center;
+}
+
+
+#page-wrapper {
+	background-color: rgba(0, 0, 0, 0);
+}
+#page {
+	opacity:1.0;
+}
+
+p {	
+    font-size:larger;	
+}

@@ -1,27 +1,44 @@
-{% extends 'MainBundle:Default:normalWebsite.html.twig' %}
- {% form_theme form 'MainBundle:form:vertical.html.twig' %}
+{% extends 'MainBundle:Template:normalWebsite.html.twig' %}
+{% form_theme form 'MainBundle:form:vertical.html.twig' %}
 
 
 {% block title %}
-
-  	Ankieta
-	
+Ankieta -
+{{ survey.title }}
 {% endblock %}
 
-{% block link %}
 
-  	{{ parent() }}
-	
+{% block container %}
+<div class="row">
+	<h1>
+		{{ survey.title }}
+	</h1>
+</div>
+<div class="row bottom-buffer">
+	<p>
+		{{  survey.description }}
+	<p>
+</div>
+<div class="row">
+	{{ form(form) }}
+</div>
 {% endblock %}
 
- 
-{% block headline %}
-	<h1>{{  survey.title }}</h1>             
-{% endblock %}
+{#
+{% block script %}
+{{ parent() }}
+<script type="text/javascript">
+	jQuery(document).ready(function() {
 
-{% block container %}    
-             {{  survey.description }}      
-             
-             {{ form(form) }}  
+		$('.numeration').each(function(index) {
+			var counter = parseInt(index) + 1;
+			$(this).prepend(index + '. ');
+		});
+
+	});
+</script>
+
+
 {% endblock %}
+#}
 

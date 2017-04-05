@@ -1,6 +1,39 @@
-{% extends 'MainBundle::base.html.twig' %}
+{% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
 
 
-{% block mainContainer %}
-   done
+{% block title %}
+Rejestracja zako�czona powodzeniem - Ankietka
 {% endblock %}
+
+{% block link %}
+{{ parent() }}
+<style type="text/css">
+body {
+	background: url("{{ asset('bundles/main/img/apple.jpg')}}") no-repeat
+		center center fixed;
+	height: 100%;
+	background-size: cover;
+}
+</style>
+{% endblock %}
+
+{% block container %}
+
+
+<div class="col-md-10 col-md-offset-1 top-buffer">
+	<div class="panel panel-success panel-transparent">
+		<div class="panel-heading">
+			Rejestracja zakończona sukcesem
+		</div>
+		<div class="panel-body">
+			<h2>Dziękujemy za dołączenie do nas! </h2>
+			<p>
+				Możesz teraz rozpocząć tworzenie ankiet, wystarczy że klikniesz swój adres email i przejdziesz do sekcji <strong>Panel ankiet</strong>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+

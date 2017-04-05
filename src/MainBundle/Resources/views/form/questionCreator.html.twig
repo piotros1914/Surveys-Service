@@ -1,0 +1,43 @@
+{% use 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block form_label_class -%}
+col-sm-3
+{%- endblock form_label_class %}
+
+{% block form_group_class -%}
+col-sm-9
+{%- endblock form_group_class %}
+
+
+{% block checkbox_widget %}
+{% spaceless %}
+<label class="button i_clear"> 
+    <input type="checkbox" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %} {% if checked %} checked="checked"{% endif %} />
+    <span>{{ label }}</span>
+</label>
+{% endspaceless %}
+{% endblock checkbox_widget %}
+
+ 
+
+{% block form_row -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form, label|default(null), { 'label_attr': { 'class': 'col-sm-offset-0 col-sm-3' } }) -}}
+        <div class="{{ block('form_group_class') }}">
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+	</div>
+{%- endblock form_row %}
+
+
+{% block form_widget_simple -%}
+    {% if type is not defined or type not in ['file', 'hidden'] %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {% endif %}
+    <div class = "input-group  input-group-sm">
+    	 {{- parent() -}}
+    	<span class="input-group-addon delete {{ block('widget_attributes') }}" id="delete' + optionCount +'">X</span>	 
+    </div> 
+{%- endblock form_widget_simple %}
+

@@ -23,6 +23,8 @@ class DynamicQuestion {
 	
 	protected $multiple = True;
 	
+	protected $label;
+	
 	protected $formOptions = array();
 
 	public function __construct($form, $em) {
@@ -33,6 +35,8 @@ class DynamicQuestion {
 	public function buildQuestion(Question $question) {
 	
 		$type = $question->getType();
+		$label = $question->getPosition();
+		$this->label = $label.". ".$question->getQuestionText();
 		
 		switch($type) {
 			case QuestionFactory::TEXT_QUESTION:
@@ -56,18 +60,26 @@ class DynamicQuestion {
 	
 	private function doTextQuestion(Question $question) {
 		$this->form->add($question->getId(), TextareaType::class, array(
-				'label' => $question->getQuestionText()));
+			    'label' => $this->label,
+				'label_attr' => array(
+						'class' => 'numeration'
+				)
+		));
 	}
 	
 	private function doChoiceQuestion(Question $question) {
+		
 		$questionId = $question->getId();			
 		$options = $this->em->getRepository('MainBundle:Option')->findBy(array('questionId'=>$questionId));
 		$this->doOption( $options );
 		$this->form->add($question->getId(), ChoiceType::class, array(
 				'choices' => $this->formOptions,
-				'label' => $question->getQuestionText(),
+				'label' => $this->label,
 				'expanded' =>$this->expanded,
-				'multiple' => $this->multiple
+				'multiple' => $this->multiple,
+				'label_attr' => array(
+						'class' => 'numeration'
+				)
 		));
 		
 	}

@@ -1,29 +1,81 @@
-{% extends 'MainBundle:Default:sidebar.html.twig' %}
-{% form_theme surveyForm 'MainBundle:form:horizontal.html.twig' %}
+{% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
+{% form_theme surveyForm 'MainBundle:form:vertical.html.twig' %}
 
 
-{% block title %}Kreator ankiety{% endblock %}
+{% block title %}
+Kreator ankiety
+{% endblock %}
 
 {% block link %}
-  	{{ parent() }}
+{{ parent() }}
+
+
+  <link rel="stylesheet" href="{{ asset('bundles/main/css/datepicker.css')}}" />
+ 
 {% endblock %}
 
 {% block container %}
-    <h1 class="page-header">
-    	 Nowa ankieta
-    </h1>    
-    <div class="row">
-        <div class="col-lg-12">     
-             {{  form(surveyForm) }}        
-          
-        </div>                   
-    </div>          
-    
-       
-                         
-    
-         
+
+<div class="row">
+	<div class="col-md-offset-2 col-md-6">
+		<h1 class="page-header bottom-buffer">Nowa ankieta</h1>
+		{{  form_start(surveyForm) }}
+		{{  form_row(surveyForm.survey) }}
+		<div class="text-right">
+			{{  form_row(surveyForm.save) }}
+		</div>
+		{{  form_end(surveyForm) }}
+	</div>
+</div>
+
 {% endblock %}
 
-       
 
+{% block script %}
+{{ parent() }}
+<script type="text/javascript">
+	jQuery(document)
+			.ready(
+					function() {
+
+						var fieldPreName = '#new_survey_survey_activity_';
+						var answerLimitID = fieldPreName + 'answerLimit';
+						var endDateID = fieldPreName + 'endDate';
+						var is_alwaysActiveID = fieldPreName + 'is_alwaysActive';
+						$('.activity').parent().hide();
+
+						$(document).on('change', '.activity_select',
+						function() {
+							$('.activity').parent().hide();
+							clearActivity();
+							changeType(this);
+
+						});
+
+						function clearActivity() {							
+							$('.activity').val(null);
+						}
+
+						function changeType(activity_select) {
+							var activity_select_val = $(activity_select).val();
+							$(fieldPreName + activity_select_val).parent().show();
+							
+							if (activity_select_val == 'is_alwaysActive')
+								$(is_alwaysActiveID).val(1);
+																		
+						}
+
+						$( "#new_survey_survey_activity_endDate" ).datepicker({
+							weekStart: 1,	
+							format: 	'yyyy-mm-dd'					
+							});
+					
+
+					}
+
+					);
+</script>
+	
+  <script src="{{ asset('bundles/main/js/bootstrap-datepicker.js')}}"></script>
+  
+{% endblock %}

@@ -17,3 +17,15 @@ services:
         arguments:  ['@router', '@security.authorization_checker', '@doctrine']
         tags:
             - { name: 'monolog.logger', channel: 'security' }
+            
+     
+     twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+            
+     twig.extension.date:
+        class: Twig_Extensions_Extension_Date
+        arguments: ["@translator"]
+        tags:
+            - { name: twig.extension }

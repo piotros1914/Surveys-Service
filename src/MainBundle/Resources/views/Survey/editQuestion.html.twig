@@ -1,0 +1,85 @@
+{% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
+{% form_theme questionForm 'MainBundle:form:questionCreator.html.twig' %}
+
+{% block title %}Kreator ankiety{% endblock %}
+
+{% block container %}
+  
+  <h2>Edycja pytania</h2>
+
+         <div class="col-sm-offset-1 col-sm-8">
+      
+            {{ form_start(questionForm) }}                 	             
+               	{{ form_row(questionForm.question.type) }}
+               	{{ form_row(questionForm.question.questionText) }}	
+               	<div id="options" data-prototype="{{ form_widget(questionForm.question.options.vars.prototype) | e }}">	
+                   {% for option in questionForm.question.options %}
+                        {{ form_widget(option) }}
+                     {% endfor %}
+                     
+                     <div class="col-sm-offset-12" id="addOptionBtn">
+                       	 <button id="add-another-option" type="button" class="btn btn-default btn-xs "><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj  opcje </button>             	 
+                     </div> 	
+                </div>     
+           {{ form_end(questionForm) }}   
+        </div>   
+      
+{% endblock %}
+
+{% block script %} 
+         {{ parent() }}
+          <script type="text/javascript">
+		jQuery(document).ready(function() {
+
+            	var optionCount = '{{ (questionForm.question.options) | length }}';
+
+            	updateOptionLabel()
+            	 $('#edit_question_question_type').val('{{question.type}}');   	     // 1 - text type
+        	    changeType();
+
+        	    $('#edit_question__token').next().hide();
+                
+        	    $(document).on('click','.delete', function() {   	        	    
+        	    	$(this).parent().parent().parent().parent().remove();       	    	
+        	    	 optionCount--;  
+        	    	 updateOptionLabel();     	      
+            	});
+
+        	    $('#add-another-option').click(function() {
+                	optionCount++;
+                	
+                    var options =  $('#options');
+                    var newWidget = options.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, optionCount);	
+                  	newWidget = jQuery('<div></div>').html( newWidget);
+                    newWidget.insertBefore("#addOptionBtn"); 
+                    updateOptionLabel()
+                    return false;
+                });
+
+        	    function updateOptionLabel() {           	  
+         			 $( "#options" ).find('label').each(function( index ) {          	    
+         				var counter = parseInt(index) + 1;  
+         				$(this).text('Opcja ' + counter);      
+         			 });
+     			 }
+
+        	    $(document).on('change', '#edit_question_question_type', function() {              	   
+        	    	changeType();
+            	});
+
+        	    function changeType(){
+					 var x = $( "#edit_question_question_type" ).val();            	    
+            	    if(x == 1)
+            	    	$('#options').hide();          	   	    	
+            	    else
+            	    	$('#options').show();    
+				}
+
+            });
+
+          </script>            
+		<script src="{{ asset('bundles/main/js/jquery2.js') }}"></script>
+            
+{% endblock %}
+

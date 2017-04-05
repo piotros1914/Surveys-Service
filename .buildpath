@@ -17,6 +17,7 @@
 	<buildpathentry excluding="Resources/stubs/" kind="src" path="vendor/symfony/polyfill-php70"/>
 	<buildpathentry kind="src" path="vendor/paragonie/random_compat/lib"/>
 	<buildpathentry kind="src" path="vendor/doctrine/dbal/lib"/>
+	<buildpathentry kind="src" path="vendor/twig/extensions/lib"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 	<buildpathentry kind="src" path="vendor/doctrine/collections/lib"/>
 	<buildpathentry kind="src" path="vendor/symfony/monolog-bundle"/>

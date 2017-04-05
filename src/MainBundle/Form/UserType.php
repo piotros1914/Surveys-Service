@@ -12,10 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserType extends AbstractType{
 	
 	public function buildForm(FormBuilderInterface $builder, array $options){
-		
-		$builder->add('username', TextType::class, array(
-				'label' => 'Użytkownik'
-		));
+				
 		$builder->add('email', EmailType::class);
 
 		$builder->add('plainPassword', RepeatedType::class, array(

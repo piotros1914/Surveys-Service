@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\IsNull;
 
 /**
  * @ORM\Table(name="answers")
@@ -143,4 +144,9 @@ class Answer {
     {
         return $this->answerText;
     }
+    
+   
+	
+    
+    
 }

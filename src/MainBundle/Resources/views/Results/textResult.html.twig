@@ -1,0 +1,20 @@
+ <div class="col-sm-4">
+     <div class="panel panel-yellow">
+          <div class="panel-heading">
+        	   <h3 class="panel-title">{{ question.questionText }}</h3>
+          </div>
+          <div class="panel-body">
+           	<ul>
+                {% for answer in answers %}   
+                    <li>
+                    	{{ answer.answerText }}	
+                    </li>
+                {% endfor %}  
+        	</ul>
+        	<a hef="">Zobacz wszystkie</a>
+        </div>
+    </div>
+ </div>  
+
+
+

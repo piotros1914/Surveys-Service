@@ -27,7 +27,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface
 	{
 		$em = $this->doctrine->getManager();
 		$repository = $em->getRepository('MainBundle:User');
-		$user = $repository->findOneByUsername($token->getUsername());
+		$user = $repository->findOneByEmail($token->getUsername());
 		
 		$user->setLastLogged(new \DateTime());
 		$em->persist($user);

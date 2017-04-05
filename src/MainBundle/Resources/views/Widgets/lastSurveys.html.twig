@@ -1,13 +1,27 @@
+<div class="list-group">
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<h3 class="panel-title">Ostatnio dodane ankiety</h3>
-    </div>
-    <div class="panel-body list-group">
- 
-            {% for survey in surveys %}
-               <a href="{{ path('survey', {'surveyId': survey.id }) }}"  class="list-group-item">{{ survey.title }}</a>
-            {% endfor %}
-    </div>
+	<a href="#" class="list-group-item list-group-item-action  active"><p
+			class="mb-1">Ostatnio dodane ankiety</p></a>
+
+	{% for survey in surveys %}
+	<a href="{{ path('survey', {'surveyId': survey.id }) }}"
+		class="list-group-item list-group-item-action flex-column align-items-start">
+		<div class="justify-content-between">
+
+			<h5>
+				{{ survey.title }}
+			</h5>
+			
+		
+			
+			<small class="text-muted">{{ survey.addedDate.diff(now).days }} dni temu</small>
+
+		</div>
+		<p class="mb-1">
+			{{ survey.description }}
+		</p>
+
+	</a>
+	{% endfor %}
 </div>
 

@@ -25,6 +25,11 @@ class Question {
 	 * @ORM\Column(name="questionText", type="text")
 	 */
 	private $questionText;
+	/**
+	 * @ORM\Column(name="position", type="integer")
+	 */
+	private $position;
+	
 	
 	/**
 	 * @var integer
@@ -39,7 +44,6 @@ class Question {
 	{
 		$this->options = new ArrayCollection();
 	}
-	
 	
     /**
      * Get id
@@ -124,7 +128,10 @@ class Question {
     }
     
 	public function getOptions() {
-		return $this->options;
+		if(is_null($this->options))
+			$this->options = new ArrayCollection();
+		
+			return $this->options;
 	}
 	
 	public function setOptions($options) {
@@ -132,4 +139,28 @@ class Question {
 		return $this;
 	}
 	
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     *
+     * @return Question
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
 }

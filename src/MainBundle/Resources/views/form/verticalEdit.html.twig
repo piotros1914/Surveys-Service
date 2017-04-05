@@ -1,18 +1,31 @@
 {% use 'bootstrap_3_layout.html.twig' %}
 
 {% block form_row -%}
+
 <div class="row">
-	<div class="col-md-10">
-    	 <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-            {{- form_label(form) -}}
-            {{- form_widget(form) -}}
-            {{- form_errors(form) -}}
-        </div>
-	</div>
-	<div class="col-md-2">
-		<button type="button" class="btn btn-default align-middle" {{ block('widget_attributes') }}>Edytuj</button>
-	</div>
+    <div class="panel panel-question">
+      <div class="panel-heading">
+          <div class="text-right">
+          		<button type="button" class="btn btn-default btn-xs moveUp" {{ block('widget_attributes') }}><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-default btn-xs moveDown" {{ block('widget_attributes') }}><i class="fa fa-arrow-down" aria-hidden="true"></i></button>         
+          		<button type="button" class="btn btn-default btn-xs edit" {{ block('widget_attributes') }}>Edytuj</button>
+            	<button type="button" class="btn btn-danger btn-xs delete" {{ block('widget_attributes') }}>Usuń</button>
+          </div>  		
+      </div>
+      <div class="panel-body">
+          	 <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+                {{- form_label(form) -}}
+                {{- form_widget(form) -}}
+                {{- form_errors(form) -}}
+            </div>
+      </div>
+    </div>
 </div>
+
+
+
+
+
 {%- endblock form_row %}
 
 

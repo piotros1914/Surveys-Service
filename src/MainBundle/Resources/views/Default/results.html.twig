@@ -1,0 +1,66 @@
+{% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
+
+
+
+{% block title %}
+Nasze najnowsze ankiety
+{% endblock %}
+
+{% block headline %}
+<div class="jumbotron-img vertical-center">
+	<div class="row">
+		
+			<img src="{{ asset('bundles/main/img/Ankietka13.png') }}" alt="Ankieta"
+				width="50%" height="50%">
+	</div>
+</div>
+
+{% endblock %}
+
+{% block container %}
+
+<div class="">
+		<div class="page-header page-heading">
+			<h1 class="pull-left">Wyniki ostatnio zakończonych badań.</h1>
+			<div class="clearfix"></div>
+		</div>
+		<table class="table forum table-striped">
+			<thead>
+				<tr>
+					<th>
+						<h3>Ankieta</h3>
+					</th>					
+					<th class="cell-stat-2x hidden-xs hidden-sm col-md-2 text-right">
+						Data dodania
+					</th>				
+				</tr>
+			</thead>
+			<tbody>
+				{% for survey in surveys %}
+    				<tr>
+    					<td>
+    						<h4>
+    							<a href="{{ path('survey', {'surveyId': survey.id}) }}">{{ survey.title }}</a><br>
+    							<small>{{survey.description }}</small>
+    						</h4>
+    					</td>    					
+    					<td class="text-right">
+    					   <small> {{survey.addedDate|time_diff}}</small>
+    					</td>   					
+    				</tr>
+				{% else %}
+    				<tr>   					
+    					<td>-</td>
+    					<td>-</td>
+    				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-center">
+        	{{ render(controller('MainBundle:Widgets:pagination',{'page' : page, 'pagesQuantity': pagesQuantity})) }}
+        </div>
+</div>
+
+
+{% endblock %}
+

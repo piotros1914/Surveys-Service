@@ -13,7 +13,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="user")
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="Adres email jest już używany")
- * @UniqueEntity(fields="username", message="Nazwa użytkownika już jest zajęta")
  */
 class User implements UserInterface
 {
@@ -26,18 +25,11 @@ class User implements UserInterface
      */
     private $id;
 
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=30)
-     * @Assert\NotBlank(message="Te pole nie może być puste")
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=50)
+     * @ORM\Column(name="email", type="string", length=50, unique=true)
      * @Assert\NotBlank( message="Te pole nie może być puste")
      * @Assert\Email(message="Wpisano nie prawdiłowy adresemail")
      */
@@ -86,14 +78,7 @@ class User implements UserInterface
     		
     	}
     
-    	
-    	public function setUsername($username)
-    	{
-    		$this->username = $username;
-    
-    		return $this;
-    	}
-    
+
     	/**
     	 * Get username
     	 *
@@ -101,7 +86,7 @@ class User implements UserInterface
     	 */
     	public function getUsername()
     	{
-    		return $this->username;
+    		return $this->email;
     	}
     
     	/**

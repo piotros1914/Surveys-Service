@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
  * Survey
  *
  * @ORM\Table(name="survey")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Repository\SurveyRepository")
  */
 class Survey
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +24,28 @@ class Survey
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100, nullable=false)
+     * @ORM\Column(name="title", type="string", length=100)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=false)
+     * @ORM\Column(name="description", type="text")
      */
     private $description;
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="responesNumber", type="integer", nullable=true)
+     * @ORM\Column(name="responesNumber", type="integer")
      */
     private $responesNumber;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
     
@@ -55,11 +55,26 @@ class Survey
      * @ORM\Column(name="addedDate", type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     private $addedDate;
+    
+    /**
+     *
+     * @ORM\Column(name="visibility", type="boolean")
+     */
+    private $visibility;
+    
+    /**
+     * 
+     * @ORM\OneToOne(targetEntity="Activity" , cascade={"persist"})
+     */
+    private $activity;
+    
+    
+    
 
 
     public function __construct(){   	
     	$this->addedDate = new \DateTime();
-
+    	$this->responesNumber = 0;
     }
     /**
      * Get id
@@ -196,5 +211,56 @@ class Survey
     public function getResponesNumber()
     {
         return $this->responesNumber;
+    }
+
+
+
+    /**
+     * Set visibility
+     *
+     * @param \bool $visibility
+     *
+     * @return Survey
+     */
+    public function setVisibility($visibility)
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    /**
+     * Get visibility
+     *
+     * @return \bool
+     */
+    public function getVisibility()
+    {
+        return $this->visibility;
+    }
+
+
+    /**
+     * Set activity
+     *
+     * @param \MainBundle\Entity\Activity $activity
+     *
+     * @return Survey
+     */
+    public function setActivity(\MainBundle\Entity\Activity $activity = null)
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+    /**
+     * Get activity
+     *
+     * @return \MainBundle\Entity\Activity
+     */
+    public function getActivity()
+    {
+        return $this->activity;
     }
 }

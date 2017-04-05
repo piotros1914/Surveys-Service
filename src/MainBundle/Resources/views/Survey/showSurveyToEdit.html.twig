@@ -1,0 +1,135 @@
+{% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
+{% form_theme form 'MainBundle:form:verticalEdit.html.twig' %}
+
+{% block title %}
+
+Twoje ankiety
+
+{% endblock %}
+
+{% block link %}
+
+{{ parent() }}
+
+<style>
+.vertical-center {
+	display: flex;
+	align-items: center;
+}
+
+.panel-heading {
+	background: #C4DF9F;
+	padding: 5px;
+}
+
+.panel-warning .panel-heading {
+	background: #E0E0E0;
+}
+</style>
+
+{% endblock %}
+
+{% block container %}
+<div class="col-md-offset-1 col-md-10">
+
+	<div class="row bottom-buffer">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<div class="text-right">
+
+					<button type="button" class="btn btn-default btn-md edit"
+						{{ block('widget_attributes') }}>Edytuj</button>
+					<button type="button" class="btn btn-danger btn-md delete"
+						{{ block('widget_attributes') }}>Usuń</button>
+
+				</div>
+			</div>
+			<div class="panel-body">
+				<h1>
+					{{ survey.title }}
+				</h1>
+				{{  survey.description }}
+			</div>
+		</div>
+	</div>
+	{{ form(form) }}
+	<div class="bottom-buffer top-buffer-30 text-right">
+		<a href="{{ path('newQuestion', {'surveyId': survey.Id}) }}" class="btn btn-default" role="button">
+    		<i class="fa fa-plus" aria-hidden="true"></i>
+    		 Dodaj nowe pytanie
+		</a>
+	</div>
+	
+
+</div>
+{% endblock %}
+
+{% block script %}
+
+{{ parent() }}
+<script type="text/javascript">
+
+        		$(document).ready(function() {        
+            	    $(".edit").click(function(){                        	    	
+                    	var editWithID = $(this).attr('id');    // substring delete from "delete + ID"
+            	    	var ID = editWithID.substring(5);  
+            	    	var url = '../editQuestion/';
+            	    	
+            	    	window.location.href = url + ID;
+                    });
+
+            	    $(".delete").click(function(){                        	    	
+                    	var deleteWithID = $(this).attr('id');   
+            	    	var ID = deleteWithID.substring(5);  
+            	    	var url = '../deleteQuestion/';
+            	    	
+            	    	window.location.href = url + ID;
+                    });
+
+            	    $(".moveUp").click(function(){                        	    	
+            	    	var moveUpWithID = $(this).attr('id');   
+            	    	var ID = moveUpWithID.substring(5);  
+            	    	var url = '../changePositionQuestion/';
+            	    	var schift = '/1';
+            	    	
+            	    	window.location.href = url + ID + schift;
+                    });
+
+            	    $(".moveDown").click(function(){                        	    	
+            	    	var moveDownWithID = $(this).attr('id');   
+            	    	var ID = moveDownWithID.substring(5);  
+            	    	var url = '../changePositionQuestion/';
+            	    	var schift = '/-1';
+            	    	
+            	    	window.location.href = url + ID + schift;
+                    });
+
+            	    $("#deleteSurveyBtn").click(function(){                        	    	
+            	    	var url = "../deleteSurvey/" + {{ survey.id }};            	            	    	
+            	    	window.location.href = url;
+                    });
+
+            	    $("#editSurveyBtn").click(function(){                        	    	
+            	    	var url = "../editSurvey/" + {{ survey.id }};            	            	    	
+            	    	window.location.href = url;
+                    });
+                    
+
+            	    var $set = $('.panel-question');
+            	    var length = $set.length;
+            	    $set.each(function(index) {
+                	    if(index == 0)
+            				$(this).find('.moveUp').remove();
+                	    if (index == length - 1) {
+                	    	$(this).find('.moveDown').remove();
+                        }
+            		});
+
+                    
+           	    });
+   
+            </script>
+
+{% endblock %}
+
+

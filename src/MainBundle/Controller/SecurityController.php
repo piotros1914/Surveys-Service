@@ -10,6 +10,7 @@ use MainBundle\Form\LoginType;
 use MainBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use MainBundle\Form\Model\Registration;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 
 class SecurityController extends Controller{
@@ -60,6 +61,12 @@ class SecurityController extends Controller{
 			$em->persist($user);
 			$em->flush();
 			
+			$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+			$this->get('security.token_storage')->setToken($token);
+			$this->get('session')->set('_security_main', serialize($token));
+			
+			
+			
 			return $this->redirectToRoute('registrationDone');
 		}
 		
@@ -79,6 +86,14 @@ class SecurityController extends Controller{
 	 */
 	public function termsAction(){
 		
+		return array();
+	}
+	
+	/**
+	 * @Route("/profil", name="profil")
+	 * @Template()
+	 */
+	public function profilAction(){
 	
 		return array();
 	}

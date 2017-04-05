@@ -1,59 +1,87 @@
-{% extends 'MainBundle:Default:sidebar.html.twig' %}
+{% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
 
 {% block title %}
 
-  	Twoje ankiety
-	
+Twoje ankiety
+
 {% endblock %}
 
 {% block link %}
 
-  	{{ parent() }}
-	
+{{ parent() }}
+
 {% endblock %}
 
 {% block container %}
-    <h1 class="page-header">
-    	Twoje ankiety                    
-    </h1>    
-    <div class="row">
-        <div class="col-lg-6">                    
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                         	<th>#</th>
-                            <th>Tytuł</th>
-                            <th>Opis</th>                                       
-                        </tr>
-                    </thead>
-                    <tbody>
-                     {% for survey in surveys %}
-						 <tr>
-						    <td>
-						    	<a href="{{ path('showSurvey', {'surveyId': survey.id}) }}">{{ loop.index }}</a>
-    						</td>
-							<td>
-							    {{ survey.title }}
-							</td>
-                        	<td>
-                        	    {{survey.description }}
-                        	</td>
-                        	<td>
-                        		<a href="{{ path('delete', {'surveyId': survey.id}) }}">Usuń</a>
-                        	</td>
-						 </tr>
-					 {% else %}
-      					 <tr>
-						    <td>-</td>
-							<td>-</td>
-                        	<td>-</td>
-						 </tr>
-					 {% endfor %}                                 
-                    </tbody>
-                </table>
-            </div>
-        </div>                   
-    </div>               
+
+	<div class="container top-buffer-20">
+		<div class="page-header page-heading">
+			<h1 class="pull-left">Aktywne ankiety</h1>
+			<div class="clearfix"></div>
+		</div>
+		<p class="lead">W sekcji tej znajdują się wszystkie Twoje aktywne
+			ankiety. Podczas trawania sondażu zaleca się nie zmieniać parametrów,
+			aczkoliwek jest to możliwe. Jeżeli ustałileś termin zakończenia
+			ankiety, to w tej sekcji, zapomocą przycisku "zakończ" możesz ją
+			przerwać natychmiastowo.</p>
+		<table class="table forum table-striped">
+			<thead>
+				<tr >
+					<th>
+						<h3>Ankieta</h3>
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Aktualne wyniki
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Data zakończenia
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Akcje
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for survey in surveys %}
+    				<tr>
+    					<td>
+    						<h4>
+    							<a href="{{ path('survey', {'surveyId': survey.id}) }}">{{ survey.title }}</a><br>
+    							<small>{{survey.description }}</small>
+    						</h4>
+    					</td>
+    					<td>
+    						<a href="{{ path('results', {'surveyId': survey.id}) }}">Zobacz</a>
+    					</td>
+    					<td>
+    					    {{survey.addedDate|localizeddate('full', 'none', app.request.locale, null, "d MMMM Y, HH:mm")}}
+    					</td>
+    					<td>
+    					<div class="row">
+            				<a href="{{ path('deleteSurvey', {'surveyId': survey.id}) }}" class="btn btn-danger btn-xs" role="button">
+            					<i class="fa fa-times" aria-hidden="true"></i>
+            				</a>
+            				<a href="{{ path('showSurveyToEdit', {'surveyId': survey.id}) }}" class="btn btn-default btn-xs" role="button">
+            					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            				</a>
+				
+				</div>
+				
+    						
+    					</td>
+    				</tr>
+				{% else %}
+    				<tr>
+    					<td>-</td>
+    					<td>-</td>
+    					<td>-</td>
+    					<td>-</td>
+    				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+</div>
+
+
 {% endblock %}
 

@@ -34,23 +34,10 @@ class QuestionType extends AbstractType{
 				'allow_add'    => true,
 				'allow_delete' => true,
 				'by_reference' => false,
-				'prototype' => true
+				'prototype' => true,
+				'label' => false
 		));
-		
 	
-		$builder->add('addNextQuestion', SubmitType::class, array(
-				'label' =>'Dodaj kolejne pytanie',		
-				'attr' => array(
-						'class' => 'btn btn-default'
-				)
-		));
-		
-		$builder->add('endCreateSurvey', SubmitType::class, array(
-				'label' =>'Zakończ tworzenie ankiety',
-				'attr' => array(
-						'class' => 'btn btn-success pull-right'
-				)
-		));
 	}
 	
 	public function configureOptions(OptionsResolver $resolver)

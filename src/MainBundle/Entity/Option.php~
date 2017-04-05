@@ -36,6 +36,8 @@ class Option {
 	private $surveyId;
 	
 
+	
+
 
     
 
@@ -122,4 +124,23 @@ class Option {
     {
         return $this->questionId;
     }
+	
+    public function answerNumberIncrease()
+    {
+    	if(is_null($this->answerNumber))
+    		$this->answerNumber = 0;
+    		 
+    		$this->answerNumber = $this->answerNumber + 1;
+    }
+    public function getAnswerNumber() {
+    	if(is_null($this->answerNumber))
+    		return 0;
+    	else
+    		return $this->answerNumber;
+    }
+    public function setAnswerNumber($answerNumber) {
+    	$this->answerNumber = $answerNumber;
+    	return $this;
+    }
+    private $answerNumber;
 }

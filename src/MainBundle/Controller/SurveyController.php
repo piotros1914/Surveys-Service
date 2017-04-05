@@ -11,13 +11,22 @@ use MainBundle\Form\SurveyType;
 use MainBundle\Form\QuestionType;
 use MainBundle\Form\DynamicQuestion;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-use MainBundle\Entity\Answer;
-use Symfony\Component\HttpFoundation\Response;
 use MainBundle\Model\AnswerRecorder;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use MainBundle\Entity\Question;
 use MainBundle\Entity\Option;
+use Doctrine\Common\Collections\ArrayCollection;
+use MainBundle\Form\EditSurveyType;
+use MainBundle\Form\Model\EditSurvey;
+use MainBundle\Form\Model\AddSurvey;
+use MainBundle\Form\AddSurveyType;
+use MainBundle\Form\Model\EditQuestion;
+use MainBundle\Form\EditQuestionType;
+use MainBundle\Form\Model\AddQuestion;
+use MainBundle\Form\AddQuestionType;
+use MainBundle\Form\newSurveyType;
+use MainBundle\Form\Model\newSurvey;
+use MainBundle\Form\Model\newQuestion;
+use MainBundle\Model\SurveyBuilder;
 
 /**
  * @Route("/panel")
@@ -40,45 +49,26 @@ class SurveyController extends Controller
      * @Template()
      */
     public function showAllSurveysAction(){
-    	
-    	if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
-    	{
-    		$user = $this->container->get('security.token_storage')->getToken()->getUser();
-    		$userId = $user->getId();
-    	}
-    	
+    	  
+    	$user = $this->container->get('security.token_storage')->getToken()->getUser();
+    	$userId = $user->getId();   	  	
     	$surveys = $this->getDoctrine()->getRepository('MainBundle:Survey')->findByuserId($userId);
     	return array('surveys' => $surveys);
     }
     
     /**
-     * @Route("/showSurvey/{surveyId}", name="showSurvey")
+     * @Route("/showSurveyToEdit/{surveyId}", name="showSurveyToEdit")
      * @Template()
      */
-    public function showSurveyAction($surveyId){
+    public function showSurveyToEditAction($surveyId){
     	
-    	$survey = $this->getDoctrine()->getRepository('MainBundle:Survey')->find($surveyId);    	
-    	$questions = $this->getDoctrine()->getRepository('MainBundle:Question')->findBy(array('surveyId'=>$surveyId));
-    	
-    	$form = $this->createFormBuilder();    	
     	$em = $this->getDoctrine()->getManager();
-    	
-    	$dq = new DynamicQuestion($form, $em);
-    
-    	foreach ($questions as $question) {
-    		$form = $dq->buildQuestion($question);
-    	}
-    	
-    	$form->setAction($this->generateUrl('answer', array('surveyId' => $surveyId)));
-    	$form->add('submit', SubmitType::class, array(
-    			'label' => "Prześlij",
-    			'attr' => array(
-    					'class' => 'btn btn-primary')));
-    	
-    	$form = $form->getForm();
+    	$form = $this->createFormBuilder();
+    	 
+    	$surveyBuilder = new SurveyBuilder($surveyId, $em, $form);
     	return array(
-    			'survey' => $survey,   		
-    			'form' => $form->createView() 			
+    			'survey' => $surveyBuilder->getSurvey(),   		
+    			'form' => $surveyBuilder->createSurveyEditForm() 			
     	);
     }
      
@@ -113,34 +103,51 @@ class SurveyController extends Controller
     public function newSurveyAction(Request $request){
     	 
     	$survey = new Survey();
-    	
     	$survey->setUserId($this->getUser()->getId());
-    	$surveyForm = $this->createForm(SurveyType::class, $survey);
-       	
+    	
+    	$newSurvey = new newSurvey();
+    	$newSurvey->setSurvey($survey);
+    	
+    	$surveyForm = $this->createForm(newSurveyType::class, $newSurvey);       	
     	$surveyForm->handleRequest($request);
     	
     	if($surveyForm->isValid() && $surveyForm->isSubmitted()){
-    			
-    		if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
-    		{
-    			$em = $this->getDoctrine()->getManager();
-    			$user = $this->container->get('security.token_storage')->getToken()->getUser();
-    			$userId = $user->getId();
-    			$survey->setUserId($userId);
-    			 
-    			$em->persist($survey);
-    			$em->flush();
-    			
-    			
-    		}
+
+    		$survey = $newSurvey->getSurvey();
+    		$em = $this->getDoctrine()->getManager();
+    		$em->persist($survey);
+    		$em->flush();
     	
     		return $this->redirect($this->generateUrl('newQuestion', array('surveyId'=> $survey->getId())));
-	
-    	}
-    	   
+    	}   
     	return array('surveyForm' => $surveyForm->createView());
-    }
+    } 
     
+    /**
+     * @Route("/editSurvey/{surveyId}", name="editSurvey")
+     * @Template()
+     */
+    public function editSurveyAction(Request $request, $surveyId){
+    	
+    	$em = $this->getDoctrine()->getManager();
+    	$survey = $em->getRepository('MainBundle:Survey')->find($surveyId);
+    	
+    	$editSurvey = new EditSurvey();
+    	$editSurvey->setSurvey($survey);
+  
+    	$surveyForm = $this->createForm(EditSurveyType::class, $editSurvey);
+    	$surveyForm->handleRequest($request);
+    	 
+    	if($surveyForm->isValid() && $surveyForm->isSubmitted()){
+    
+    		$em = $this->getDoctrine()->getManager();
+    		$em->persist($editSurvey->getSurvey());
+    		$em->flush();
+    		 
+    		return $this->redirect($this->generateUrl('showSurveyToEdit', array("surveyId" => $surveyId)));
+    	}
+    	return $this->render('MainBundle:Survey:newSurvey.html.twig', array('surveyForm' => $surveyForm->createView()));
+    }
     
     /**
      * @Route("/newQuestion/{surveyId}", name="newQuestion")
@@ -150,35 +157,36 @@ class SurveyController extends Controller
     
     	$question = new Question();
     	$question ->setSurveyId($surveyId);
-    	    
-    	$option1 = new Option();
-    	$option1->setOptionText('Twoja opcja');
     	
-    	$question->getOptions()->add($option1);
-
-    	$questionForm = $this->createForm(QuestionType::class, $question);  	 
+    	$newQuestion = new newQuestion();
+    	$newQuestion->setQuestion($question);
+    	    
+    	$questionForm = $this->createForm(AddQuestionType::class, $newQuestion);  	 
     	$questionForm->handleRequest($request);
     	 
     	if ($questionForm->isValid()) {
     		
+    		$question = $newQuestion->getQuestion();
+    		
+    		$questions = $this->getDoctrine()->getRepository('MainBundle:Question')->findBy(array('surveyId'=>$surveyId));
+    		$questionsNumber = count ($questions);
+    		$question->setPosition($questionsNumber + 1);
+    		
     		$em = $this->getDoctrine()->getManager();
     		$em->persist($question);
-    		$em->flush();
-    		  
-    		$options = $question->getOptions();
+    		$em->flush(); 				
     		$questionId = $question->getId();
     		
+    		$options = $question->getOptions();
 	    	foreach ($options as $option) {
 	    		$option->setQuestionId($questionId);
-	    		$option->setSurveyId($surveyId);
-	    		    		
+	    		$option->setSurveyId($surveyId);    		    		
  	    		$em->persist($option);    		
     		}
     		$em->flush();
 
-    		$nextAction = $questionForm->get('endCreateSurvey')->isClicked() ? 'showSurvey' : 'newQuestion';
+    		$nextAction = $questionForm->get('endCreateSurvey')->isClicked() ? 'showSurveyToEdit' : 'newQuestion';
     		return $this->redirect($this->generateUrl($nextAction, array("surveyId" => $surveyId)));
-    		
     	}
     	return array('questionForm' => $questionForm->createView());
     	
@@ -187,42 +195,148 @@ class SurveyController extends Controller
      * @Route("/editQuestion/{questionId}", name="editQuestion")
      * @Template()
      */
-    public function editQuestionAction(Request $request, $surveyId){
-    
-    
-    
-    
-    	return array();
-    	 
-    }
-   
-    /**
-     * @Route("/deleteSurvey/{surveyId}", name="delete")
-     */
-    public function deleteSurveyAction(Request $request, $surveyId){
+    public function editQuestionAction(Request $request, $questionId){
     	
     	$em = $this->getDoctrine()->getManager();
-    	$survey = $em->getRepository('MainBundle:Survey')->find($surveyId);
+    	$question = $em->getRepository('MainBundle:Question')->find($questionId);
+    	 	   	
+    	$options = $em->getRepository('MainBundle:Option')->findBy(array('questionId'=>$questionId));
+    	$originalOptions = new ArrayCollection();
+    	foreach ($options as $option) { 
+    		$question->getOptions()->add($option);
+    		$originalOptions->add($option);
+    	}
+    	
+    	$editQuestion = new EditQuestion();
+    	$editQuestion->setQuestion($question);
+    	
+    	$questionForm = $this->createForm(EditQuestionType::class, $editQuestion);
+    	$questionForm->handleRequest($request);
+    	
+    	if($questionForm->isSubmitted() && $questionForm->isValid()){
+    	   		
+    		$question = $editQuestion->getQuestion();
+    		$options = $question->getOptions();
+    		$questionId = $question->getId();
+    		$surveyId = $question->getSurveyId();
+    		
+    		$em->persist($question);
+    					
+    		foreach ($originalOptions as $orginalOption) {
+    			if (false === $options->contains($orginalOption))  	
+    				$em->remove($orginalOption);   				
+    		}
+		 
+    		foreach ($options as $option) {
+    			$option->setQuestionId($questionId);
+    			$option->setSurveyId($surveyId);
+    			$em->persist($option);
+    		}
+    		$em->flush();
+    			 
+    		return $this->redirect($this->generateUrl('showSurveyToEdit', array('surveyId' => $surveyId	)));	
+    	}
+    	
+    	return array('questionForm' => $questionForm->createView(),
+    				'question'=> $question
+    	);
+    }
+    
+    /**
+     * @Route("/results/{surveyId}", name="results")
+     * @Template()
+     */
+    public function resultsAction(Request $request, $surveyId){
+    	
+    	$em = $this->getDoctrine()->getManager();
+    	$questions = $em->getRepository('MainBundle:Question')->findBy(array('surveyId'=>$surveyId));
+    
+    	return array('questions' => $questions);
+    }
+    
+   
+    /**
+     * @Route("/deleteSurvey/{surveyId}", name="deleteSurvey")
+     */
+    public function deleteSurveyAction($surveyId){
+    	
+    	$em = $this->getDoctrine()->getManager();
+    
+    	$survey = $em->getRepository('MainBundle:Survey')->find($surveyId);	 
     	$questions = $em->getRepository('MainBundle:Question')->findBy(array('surveyId'=>$surveyId));
     	$options = $em->getRepository('MainBundle:Option')->findBy(array('surveyId'=>$surveyId));
     	$answers = $em->getRepository('MainBundle:Answer')->findBy(array('surveyId'=>$surveyId));
     	    
-//     	$this->remover($em, $survey);
-    	$this->remover($em, $questions);
-    	$this->remover($em, $options);
-    	$this->remover($em, $answers);
+    	$this->arrayRemover($em, $questions);
+    	$this->arrayRemover($em, $options);
+    	$this->arrayRemover($em, $answers);
     	$em->remove($survey);
-//     	$em->remove($questions);
-//     	$em->remove($options);
-//     	$em->remove($answers);
+  
     	$em->flush();
     	
     	return $this->redirect($this->generateUrl('showAllSurveys'));
-    	 
+ 
     }
-    private function remover($em, $objects){
+    
+    /**
+     * @Route("/deleteQuestion/{questionId}", name="deleteQuestion")
+     */
+    public function deleteQuestionAction($questionId){
+    	 
+    	$em = $this->getDoctrine()->getManager();
+    		
+    	$question = $em->getRepository('MainBundle:Question')->find($questionId);
+    	$options = $em->getRepository('MainBundle:Option')->findBy(array('questionId'=>$questionId));
+    	$answers = $em->getRepository('MainBundle:Answer')->findBy(array('questionId'=>$questionId));
+    		
+    	$surveyId = $question->getSurveyId();
+    	
+    	$this->arrayRemover($em, $options);
+    	$this->arrayRemover($em, $answers);
+    	$em->arrayRemover($question);
+    	$em->persist($option);
+    	$em->flush();
+    	 
+    	return $this->redirect($this->generateUrl('showSurveyToEdit', array("surveyId" => $surveyId)));  
+    }
+    
+    private function arrayRemover($em, $objects){
     	foreach($objects as $object){
     		$em->remove($object);
     	}
     }
+    
+    /**
+     * @Route("/changePositionQuestion/{questionId}/{schift}", name="changePositionQuestion")
+     */
+   public function changePositionAction($questionId, $schift){
+      	 
+    	$repository = $this->getDoctrine()->getRepository('MainBundle:Question');
+    	$firstQuestion = $repository->findOneById($questionId);
+    	$surveyId = $firstQuestion->getSurveyId();
+    
+    	$beginingPosition = $firstQuestion->getPosition();
+    	$targetPosition = $beginingPosition - $schift;
+    
+    	$secondQuestion = $repository->findOneBy(array(
+    			'position' => $targetPosition,
+    			'surveyId' => $surveyId
+    	));
+    
+    
+    	$firstQuestion->setPosition($targetPosition);
+    	$secondQuestion->setPosition($beginingPosition);
+    
+    	$em = $this->getDoctrine()->getManager();
+    	$em->persist($firstQuestion);
+    	$em->persist($secondQuestion);
+    	$em->flush();
+    
+    	return $this->redirect($this->generateUrl('showSurveyToEdit', array("surveyId" => $surveyId)));
+    
+    }
+    
+    
+    
+    
 }
