@@ -23,124 +23,79 @@ class Option {
 	private $optionText;
 	
 	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="questionId", type="integer")
+	 * @ORM\ManyToOne(targetEntity="Question", inversedBy="options", cascade={"persist"})
+	 * @ORM\JoinColumn(name="question", referencedColumnName="id")
 	 */
-	private $questionId;
+	private $question;
+	
+	private $answerNumber;
+	
 	/**
-	 * @var integer
+	 * Get id
 	 *
-	 * @ORM\Column(name="surveyId", type="integer")
+	 * @return integer
 	 */
-	private $surveyId;
+	public function getId() {
+		return $this->id;
+	}
 	
-
+	/**
+	 * Set optionText
+	 *
+	 * @param string $optionText        	
+	 *
+	 * @return Option
+	 */
+	public function setOptionText($optionText) {
+		$this->optionText = $optionText;
+		
+		return $this;
+	}
 	
-
-
-    
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set optionText
-     *
-     * @param string $optionText
-     *
-     * @return Option
-     */
-    public function setOptionText($optionText)
-    {
-        $this->optionText = $optionText;
-
-        return $this;
-    }
-
-    /**
-     * Get optionText
-     *
-     * @return string
-     */
-    public function getOptionText()
-    {
-        return $this->optionText;
-    }
-
-  
-
-    /**
-     * Set surveyId
-     *
-     * @param integer $surveyId
-     *
-     * @return Option
-     */
-    public function setSurveyId($surveyId)
-    {
-        $this->surveyId = $surveyId;
-
-        return $this;
-    }
-
-    /**
-     * Get surveyId
-     *
-     * @return integer
-     */
-    public function getSurveyId()
-    {
-        return $this->surveyId;
-    }
-
-    /**
-     * Set questionId
-     *
-     * @param integer $questionId
-     *
-     * @return Option
-     */
-    public function setQuestionId($questionId)
-    {
-        $this->questionId = $questionId;
-
-        return $this;
-    }
-
-    /**
-     * Get questionId
-     *
-     * @return integer
-     */
-    public function getQuestionId()
-    {
-        return $this->questionId;
-    }
+	/**
+	 * Get optionText
+	 *
+	 * @return string
+	 */
+	public function getOptionText() {
+		return $this->optionText;
+	}
+	public function answerNumberIncrease() {
+		if (is_null ( $this->answerNumber ))
+			$this->answerNumber = 0;
+		
+		$this->answerNumber = $this->answerNumber + 1;
+	}
+	public function getAnswerNumber() {
+		if (is_null ( $this->answerNumber ))
+			return 0;
+		else
+			return $this->answerNumber;
+	}
+	public function setAnswerNumber($answerNumber) {
+		$this->answerNumber = $answerNumber;
+		return $this;
+	}
 	
-    public function answerNumberIncrease()
-    {
-    	if(is_null($this->answerNumber))
-    		$this->answerNumber = 0;
-    		 
-    		$this->answerNumber = $this->answerNumber + 1;
-    }
-    public function getAnswerNumber() {
-    	if(is_null($this->answerNumber))
-    		return 0;
-    	else
-    		return $this->answerNumber;
-    }
-    public function setAnswerNumber($answerNumber) {
-    	$this->answerNumber = $answerNumber;
-    	return $this;
-    }
-    private $answerNumber;
+	/**
+	 * Set question
+	 *
+	 * @param \MainBundle\Entity\Question $question        	
+	 *
+	 * @return Option
+	 */
+	public function setQuestion(\MainBundle\Entity\Question $question = null) {
+		$this->question = $question;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get question
+	 *
+	 * @return \MainBundle\Entity\Question
+	 */
+	public function getQuestion() {
+		return $this->question;
+	}
 }

@@ -6,52 +6,46 @@ Logowanie - Ankietka
 {% endblock %}
 
 {% block link %}
-{{ parent() }}
-<style type="text/css">
-body {
-	background: url("{{ asset('bundles/main/img/apple.jpg')}}") no-repeat
-		center center fixed;
-	height: 100%;
-	background-size: cover;
-}
-</style>
+    {{ parent() }}
+    <link href="{{ asset('bundles/main/css/security.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block container %}
 
-
-<div class="col-md-4 col-md-offset-8 top-buffer">
-	<div class="panel panel-default panel-transparent">
-		<div class="panel-heading">
-			<span class="glyphicon glyphicon-lock"></span> Logowanie
-		</div>
-		<div class="panel-body">
-			{{ form_start(form) }}
-			{{ form_row(form.email) }}
-			{{ form_row(form.password) }}
-			<div class="form-group">
-				<div class="col-sm-offset-3 col-sm-9">
-					<div class="checkbox">
-						<label> <input type="checkbox" id="remember_me" name="_remember_me"/> Pamiętaj mnie
-						</label>
-					</div>
-				</div>
-			</div>
-			{{ form_end(form) }}
-			{% if error %}
-			<div class="col-md-offset-2 error">
-				<p class="text-danger">
-					{{ error.messageKey|trans(error.messageData, 'security') }}
-				</p>
-			</div>
-			{% endif %}
-		</div>
-		<div class="panel-footer">
-			Nie posiadasz jescze konta? <a href="{{ path('registration') }}">tutaj</a>
-		</div>
-	</div>
+<div class="security container">
+    <div class="col-md-6 col-md-offset-3 top-buffer">
+    	<div class="panel panel-default panel-transparent">
+    		<div class="panel-heading">
+    			<span class="glyphicon glyphicon-lock"></span> Logowanie
+    		</div>
+    		<div class="panel-body">
+    			{{ form_start(form) }}
+    			{{ form_row(form.email) }}
+    			{{ form_row(form.password) }}
+    			<div class="form-group">
+    				<div class="col-sm-offset-3 col-sm-9">
+    					<div class="checkbox">
+    						<label> <input type="checkbox" id="remember_me" name="_remember_me"/> Pamiętaj mnie
+    						</label>
+    					</div>
+    				</div>
+    			</div>
+    			{{ form_end(form) }}
+    			{% if error %}
+    			<div class="col-md-offset-2 error">
+    				<p class="text-danger">
+    					{{ error.messageKey|trans(error.messageData, 'security') }}
+    				</p>
+    			</div>
+    			{% endif %}
+    		</div>
+    		<div class="panel-footer">
+    			Nie posiadasz jescze konta? <a href="{{ path('registration') }}">kliknij tutaj</a></br>
+    			Zapomniałeś hasła? <a href="{{ path('forgotPassword') }}">żaden problem</a>
+    		</div>
+    	</div>
+    </div>
 </div>
-
 
 {% endblock %}
 

@@ -1,0 +1,13 @@
+<div>
+	<ul class="pagination">
+		<li><a href="{{ path('surveys', {'page': pagination.previousPage }) }}">&laquo;</a></li>
+		{% for i in pagination.firstPage..pagination.lastPage %}
+    		{% if loop.index + pagination.firstPage -1  == pagination.actualPage %}
+    			<li><a href="{{ path('surveys', {'page': i }) }}"><b>{{ i }}</b></a></li>
+    		{% else %}
+    			<li><a href="{{ path('surveys', {'page': i }) }}">{{ i }}</a></li>
+    		{% endif %}
+		{% endfor %}
+		<li><a href="{{ path('surveys', {'page': pagination.nextPage }) }}">&raquo;</a></li>
+	</ul>
+</div>

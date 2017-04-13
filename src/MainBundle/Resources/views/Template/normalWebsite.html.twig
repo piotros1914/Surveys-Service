@@ -6,20 +6,8 @@ Ankietka
 
 {% block link %}
 {{ parent() }}
-<link href="{{ asset('bundles/main/css/normalPage.css')}}"
-	rel="stylesheet">
-	<style>
-    .jumbotron-img {
-        background: url("{{ asset('bundles/main/img/jumbotron2.jpg') }}") no-repeat scroll 0 0 / cover rgba(0, 0, 0, 0);
-        background: contain;
-        margin: auto;
-        padding-left: 100px;
-        width: 100%;
-        height: 300px;
-        }
-  </style>
+<link href="{{ asset('bundles/main/css/normalPage.css')}}" rel="stylesheet">
 {% endblock %}
-
 
 {% block nav %}
 {% endblock %}
@@ -27,28 +15,29 @@ Ankietka
 
 {% block mainContainer %}
 
-{% block headline %}
-{% endblock %}
+    {% block headline %}
+    {% endblock %}
+    
+    
+    
+    {% block container %}
+    
+    {% endblock %}
 
-
-<div id="page-wrapper">
-
-	<div class="col-md-offset-2 col-md-8" id="page">
-		{% block container %}
-
-		{% endblock %}
-
-	</div>
-</div>
 <div class="spacer"></div>
 <footer>
-	<div>
-		<div class="text-center top-buffer-10">
-			Copyright © Ankietka 2016. All right reserved<a
-				href="{{ path('about') }}"> O projeckie</a>
+	<div class="text-center">
+		<div class="col-md-3 col-md-offset-1 text-left">
+			<a class="btn" href="{{ path('about') }}" style="color: #777"> Onas</a>
+			<a class="btn" href="{{ path('about') }}" style="color: #777"> Kontakt</a>
+			<a class="btn" href="{{ path('terms') }}" style="color: #777"> Regulamin</a>
+		</div>
+		<div class="col-md-4 top-buffer-10">
+				<small class="text-muted"> Copyright © Ankietka 2016. All right reserved</small>
 		</div>
 	</div>
 </footer>
+
 {% endblock %}
 
 

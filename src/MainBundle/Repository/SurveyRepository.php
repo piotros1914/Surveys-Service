@@ -10,15 +10,112 @@ namespace MainBundle\Repository;
  */
 class SurveyRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findLastSurveys($max = null, $offset = null) {
+		return $this->findAllVisibleAndActiveSurveys ($max, $offset);
+	}
 	
-	public function findAllVisibleAndActiveSurveys($max = null, $offset = null)
-	{	
-						
-		$qb = $this->_em->createQueryBuilder('p');
+	public function numberAllVisibleAndActiveSurveys() {
+		return count ( $this->findAllVisibleAndActiveSurveys () );
+	}
+	
+	public function findAllVisibleAndActiveSurveys($max = null, $offset = null) {
+		$qb = $this->AllVisibleAndActiveSurveysQuery ( $offset, $max );
+		$qb->orderBy ( 'p.addedDate', 'DESC' );
 		
+		return $qb->getQuery ()->getResult ();
+	}
+	
+	public function findPopularSurveys($max = null, $offset = null) {
+		$qb = $this->AllVisibleAndActiveSurveysQuery ( $offset, $max );
+		$qb->orderBy ( 'p.responesNumber', 'DESC' );	
+		
+		return $qb->getQuery ()->getResult ();
+	}
+	
+	private function AllVisibleAndActiveSurveysQuery($offset, $max) {
+		$qb = $this->_em->createQueryBuilder('p');
 		$qb->select('p')
 		->from('MainBundle:Survey', 'p')
 		->where('p.visibility = :visibility')
+		->innerJoin('p.activity', 'c')
+		->andWhere(
+			$qb->expr()->orX()
+			->add('c.is_alwaysActive is NULL')
+			->add('c.is_alwaysActive = :is_alwaysActive')
+			)
+		->andWhere(
+			$qb->expr()->orX()
+			->add('c.endDate is NULL')
+			->add('c.endDate >= :now')
+			)
+		->andWhere(
+			$qb->expr()->orX()
+			->add('c.answerLimit is NULL')
+			->add('c.answerLimit > p.responesNumber')
+			)
+		->setParameter('visibility', true)
+		->setParameter('is_alwaysActive', true)
+
+		->setParameter('now', new \DateTime())
+		->setFirstResult($offset)
+		->setMaxResults($max);
+		
+		return $qb;
+	}
+
+	public function findAllVisibleAndCompletedSurveys($max = null, $offset = null)
+	{
+	
+		$qb = $this->_em->createQueryBuilder('p');
+	
+		$qb->select('p')
+		->from('MainBundle:Survey', 'p')
+		->where('p.visibility = :visibility')		
+		->orderBy('p.addedDate', 'DESC')
+		->innerJoin('p.activity', 'c')		
+		->andWhere(
+				$qb->expr()->orX()
+				->add('c.answerLimit <= p.responesNumber')
+				->add('c.endDate < :now')
+				)
+		->setParameter('visibility', true)							
+		->setParameter('now', new \DateTime())
+		->setFirstResult($offset)
+		->setMaxResults($max);
+									
+		return $qb->getQuery()->getResult();
+	
+	}
+	
+	public function findUserEndedSurveys($userId) {
+	
+		$qb = $this->_em->createQueryBuilder('p');
+	
+		$qb->select('p')
+		->from('MainBundle:Survey', 'p')
+		->where('p.user = :userId')
+		->orderBy('p.addedDate', 'DESC')
+		->innerJoin('p.activity', 'c')
+		->andWhere(
+				$qb->expr()->orX()
+				->add('c.answerLimit <= p.responesNumber')
+				->add('c.endDate < :now')
+				)
+		->setParameter('userId', $userId)
+		->setParameter('now', new \DateTime());
+		
+					
+		return $qb->getQuery()->getResult();
+	
+	}
+	
+	public function findUserActiveSurveys($userId) {
+	
+		$qb = $this->_em->createQueryBuilder('p');
+	
+		$qb->select('p')
+		->from('MainBundle:Survey', 'p')
+		->where('p.user = :userId')
 		->orderBy('p.addedDate', 'DESC')
 		->innerJoin('p.activity', 'c')
 		->andWhere(
@@ -26,30 +123,31 @@ class SurveyRepository extends \Doctrine\ORM\EntityRepository
 			->add('c.is_alwaysActive is NULL')
 			->add('c.is_alwaysActive = :is_alwaysActive')
 			)
-			->andWhere(
-			$qb->expr()->orX()
-			->add('c.endDate is NULL')
-			->add('c.endDate >= :now')
-			)
-			->andWhere(
-			$qb->expr()->orX()
-			->add('c.answerLimit is NULL')
-			->add('c.answerLimit > p.responesNumber')
-			)
-		->setParameter('visibility', true)
+		->andWhere(
+				$qb->expr()->orX()
+				->add('c.endDate is NULL')
+				->add('c.endDate >= :now')
+				)
+		->andWhere(
+				$qb->expr()->orX()
+				->add('c.answerLimit is NULL')
+				->add('c.answerLimit > p.responesNumber')
+				)
+		->setParameter('userId', $userId)
 		->setParameter('is_alwaysActive', true)
+		->setParameter('now', new \DateTime());
 		
-		->setParameter('now', new \DateTime())
-		->setFirstResult($offset)
-		->setMaxResults($max);
-			
-		return $qb->getQuery()->getResult();
-				
+	
+					
+				return $qb->getQuery()->getResult();
+	
 	}
 	
-	public function numberAllVisibleAndActiveSurveys()
-	{									
-		return count($this->findAllVisibleAndActiveSurveys());	
+	
+	
+	public function numberAllVisibleAndCompletedSurveys()
+	{
+		return count($this->findAllVisibleAndCompletedSurveys());
 	}
 	
 	

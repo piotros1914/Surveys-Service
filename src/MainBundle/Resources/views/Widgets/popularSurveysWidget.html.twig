@@ -1,0 +1,24 @@
+<div class="panel-group">	
+	<div class="panel panel-info">
+		<div class="panel-heading">		
+			Popularne ankiety
+		</div>	
+	</div>			
+    	{% for survey in surveys %}
+        <div class="panel">	
+            <div class="panel-body">
+    			<div class="justify-content-between" style="padding:100" >  
+        			<h5>
+					<a class="" href="{{ path('survey',{'surveyId': survey.id }) }}">
+						{{ survey.title }}
+					</a>
+				</h5>
+        			<small class="text-muted">{{survey.addedDate|time_diff}}</small>
+    			</div>
+        		<small>
+        			{{ survey.description }}
+        		</small>    	
+        	</div>	
+      	</div> 	
+	{% endfor %}
+</div>

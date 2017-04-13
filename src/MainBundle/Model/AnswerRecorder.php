@@ -6,61 +6,52 @@ use MainBundle\Services\QuestionFactory;
 use MainBundle\Entity\Answer;
 
 class AnswerRecorder {
-	
 	protected $em;
 	protected $answer;
 	protected $question;
-
 	public function __construct($em) {
 		$this->em = $em;
 	}
-	
 	public function addAnswer($question, $answerContent) {
-		$this->question = $question;		
-		$this->answer = new Answer();
+		$this->question = $question;
 		
-		switch($this->question->getType()) {
-			case QuestionFactory::TEXT_QUESTION:
-				$this->doSingleAnswer($answerContent);		
-				$this->em->persist($this->answer);
+		
+		switch ($this->question->getType ()) {
+			case QuestionFactory::TEXT_QUESTION :
+				$this->doSingleAnswer ( $answerContent );
 				break;
 			
-			case QuestionFactory::SINGLE_CHOICE_QUESTION:					
-				$option = $this->em->getRepository('MainBundle:Option')->find($answerContent);			
-				$this->doSingleAnswer($option->getOptionText());
-				$this->em->persist($this->answer);
+			case QuestionFactory::SINGLE_CHOICE_QUESTION :
+				$option = $this->em->getRepository ( 'MainBundle:Option' )->find ( $answerContent );
+				$this->doSingleAnswer ( $option->getOptionText () );
+				$this->doSingleAnswer ( $answerContent );
 				break;
-				
-			case QuestionFactory::MULTIPLE_CHOICE_QUESTION:
-				$this->doMultiChoiceAnswer($answerContent);
+			
+			case QuestionFactory::MULTIPLE_CHOICE_QUESTION :
+				$this->doMultiChoiceAnswer ( $answerContent );
 				break;
-							
-			default:
-				throw new \Exception("Invalid question type");				
+			
+			default :
+				throw new \Exception ( "Invalid question type" );
 		}
-	
-		
 	}
-	private function doSingleAnswer($answerContent) {		
-	 $this->answer->setAnswerText($answerContent);
-	 $this->answer->setQuestionId($this->question->getId());
-	 $this->answer->setSurveyId($this->question->getSurveyId());
+	private function doSingleAnswer($answerContent) {
+		$answer = new Answer ();
+		$answer->setAnswerText ( $answerContent );
+		$answer->setQuestion ( $this->question );
+		$this->em->persist ( $answer );
 	}
-
-
 	private function doMultiChoiceAnswer($answerContent) {
-		foreach($answerContent as $ans) {
-			$this->answer = new Answer();
-			$this->answer->setAnswerText($ans);
-			$this->answer->setQuestionId($this->question->getId());
-			$this->answer->setSurveyId($this->question->getSurveyId());
-			$option = $this->em->getRepository('MainBundle:Option')->find($ans);
-			$this->answer->setAnswerText($option->getOptionText());
-			$this->em->persist($this->answer);
+		foreach ( $answerContent as $ans ) {
+			$answer = new Answer ();
+			$answer->setAnswerText ( $ans );
+			$answer->setQuestion ( $this->question);		
+			$option = $this->em->getRepository ( 'MainBundle:Option' )->find ( $ans );
+			$answer->setAnswerText ( $option->getOptionText () );
+			$this->em->persist ( $answer );
 		}
 	}
-	
-	public function save() {
-		$this->em->flush();
+	public function flushAllAnswer() {
+		$this->em->flush ();
 	}
 }

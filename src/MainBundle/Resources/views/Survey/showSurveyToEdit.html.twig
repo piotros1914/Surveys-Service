@@ -30,36 +30,47 @@ Twoje ankiety
 {% endblock %}
 
 {% block container %}
+
+<div class="row">
+	<div class="jumbotron vertical-center" style="height:150px">
+		<div class="page-header" style="padding-left: 50px">
+			<h1>Panel edycji</h1>
+		</div>
+	</div>
+</div>
+
 <div class="col-md-offset-1 col-md-10">
 
-	<div class="row bottom-buffer">
-		<div class="panel panel-warning">
+	<div class="row">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="text-right">
-
-					<button type="button" class="btn btn-default btn-md edit"
-						{{ block('widget_attributes') }}>Edytuj</button>
-					<button type="button" class="btn btn-danger btn-md delete"
-						{{ block('widget_attributes') }}>Usuń</button>
-
+					<button id='editSurveyBtn' type="button" class="btn btn-default btn-sm edit"
+						{{ block('widget_attributes') }}>
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edytuj
+						tytuł i opis
+					</button>
 				</div>
 			</div>
 			<div class="panel-body">
-				<h1>
+				<h2>
 					{{ survey.title }}
-				</h1>
-				{{  survey.description }}
+				</h2>
+				<p>
+					{{  survey.description }}
+				</p>
 			</div>
 		</div>
 	</div>
+
 	{{ form(form) }}
 	<div class="bottom-buffer top-buffer-30 text-right">
-		<a href="{{ path('newQuestion', {'surveyId': survey.Id}) }}" class="btn btn-default" role="button">
-    		<i class="fa fa-plus" aria-hidden="true"></i>
-    		 Dodaj nowe pytanie
+		<a href="{{ path('newQuestion', {'surveyId': survey.Id}) }}"
+			class="btn btn-default" role="button"> <i class="fa fa-plus"
+			aria-hidden="true"></i> Dodaj nowe pytanie
 		</a>
 	</div>
-	
+
 
 </div>
 {% endblock %}

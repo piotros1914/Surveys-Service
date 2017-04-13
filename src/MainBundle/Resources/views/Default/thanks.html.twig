@@ -1,0 +1,63 @@
+{% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
+
+
+
+{% block title %}
+Dziękujemy!
+{% endblock %}
+
+{% block link %}
+{{ parent() }}
+<link href="{{ asset('bundles/main/css/walam.css')}}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block container %}
+<div class="container top-buffer-30 bottom-buffer-30">
+	<div class="row">
+		<div class="col-sm-9">
+			<h1>Dziękujemy Ci za wzięcie udziału w ankiecie</h1>
+			<p>Zanim opuścisz strone zapraszamy Cie do wzięcia udziału w
+				innych sondażach!</p>
+		</div>
+	</div>
+
+	<div class="row top-buffer text-center top-buffer bottom-buffer">
+		<a href="{{ path('home') }}"> <i class="fa fa-angle-double-left"
+			aria-hidden="true"></i> Przejdź do głównej
+		</a>
+	</div>
+	<div class="row bottom-buffer">
+		<div class="col-md-4">
+			{{ render(controller('MainBundle:Widgets:allActiveSurveysWidget')) }}
+		</div>
+		<div class="col-md-4">
+
+			{{ render(controller('MainBundle:Widgets:allResultsWidget')) }}
+		</div>
+		<div class="col-md-4">
+			{{ render(controller('MainBundle:Widgets:userNumberWidget')) }}
+
+		</div>
+	</div>
+</div>
+{{ render(controller('MainBundle:Default:services')) }}
+{% endblock %}
+
+
+{% block script %}
+{{ parent() }}
+<script type="text/javascript"> 
+         $( document ).ready(function() {
+        	    var heights = $(".panel-heading").map(function() {
+        	        return $(this).height();
+        	    }).get();
+        
+        	    maxHeight = Math.max.apply(null, heights);
+        
+        	    $(".panel-heading").height(maxHeight);
+       	             
+        	});   
+    </script>
+{% endblock %}

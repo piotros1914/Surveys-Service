@@ -15,7 +15,7 @@ class EditQuestionType extends AbstractType{
 				'label' => false
 		));
 		
-		$builder->add('save', SubmitType::class, array(
+		$builder->add('saveEdit', SubmitType::class, array(
 				'label' =>'Zapisz zmiany'
 		
 		));

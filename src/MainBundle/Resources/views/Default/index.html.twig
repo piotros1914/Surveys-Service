@@ -1,52 +1,62 @@
 {% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
 
+{% block title %}
+Ankietka - Twój ankietowy serwis
+{% endblock %}
+
+{% block link %}
+{{ parent() }}
+	<link href="{{ asset('bundles/main/css/walam.css')}}" rel="stylesheet">
+{% endblock %}
+
 
 {% block headline %}
-<div class="jumbotron-img vertical-center">
-	<div class="row">
-		
-			<img src="{{ asset('bundles/main/img/Ankietka13.png') }}" alt="Ankieta"
-				width="50%" height="50%">
-		
-		
-
-	</div>
+<div class="jumbotron-img" >	
+    	<div class="row title-container">
+    			<div  class="title bottom-buffer">
+    				<h1 class="title-h1"> Ankietka.eu</h1>	
+    				<h3 class="title-h2"> Twój serwis do tworzenia ankiet</h3>
+    			</div>
+    	</div>
 </div>
 
 {% endblock %}
 
 {% block container %}
-<div class="row">
-	<div class="col-sm-9">
-		<h1>Witaj w Ankietka</h1>
-		<p>Zaloguj się przy użyciu swojego adresu e-mail i hasła, by
-			odkryć naszą nową stronę internetową!</p>
-	</div>
-</div>
-<div class="row top-buffer">
-	<div class="col-sm-8">
+
+	<div class="container top-buffer-30 bottom-buffer-30">
 		<div class="row">
-			<div class=" col-sm-6">
-				<div id="lastSurveys">
-					{{ render(controller('MainBundle:Widgets:lastSurveys',{ 'max': 3 })) }}
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div id="lastSurveys">
-					{{ render(controller('MainBundle:Widgets:popularSurveys',{ 'max': 3 })) }}
-				</div>
+			<div class="col-sm-9">
+				<h1>Witaj w Ankietka</h1>
+				<p>Zaloguj się przy użyciu swojego adresu e-mail i hasła, by
+					odkryć naszą nową stronę internetową!</p>
 			</div>
 		</div>
-	</div>
-	<div class="col-sm-4 dd">
-		{{ render(controller('MainBundle:Widgets:allSurveys')) }}
-		{{ render(controller('MainBundle:Widgets:allResults')) }}
-	</div>
-</div>
+		<div class="row top-buffer">
+			<div class="col-sm-8">
+				<div class="row">
+					<div class=" col-sm-12">
+						<div id="lastSurveys">
+							{{ render(controller('MainBundle:Widgets:lastSurveysWidget',{ 'max': 3 })) }}
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div id="lastSurveys">
+							{{ render(controller('MainBundle:Widgets:popularSurveysWidget',{ 'max': 3 })) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 dd">
+				{{ render(controller('MainBundle:Widgets:allActiveSurveysWidget')) }}
+				{{ render(controller('MainBundle:Widgets:allResultsWidget')) }}
+				{{ render(controller('MainBundle:Widgets:userNumberWidget')) }}
+				{{ render(controller('MainBundle:Widgets:visitCounterWidget')) }}
+			</div>
 
-
+		</div>
+	</div>
+{{ render(controller('MainBundle:Default:services')) }}
 {% endblock %}
-
-
 
 

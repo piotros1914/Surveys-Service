@@ -19,9 +19,9 @@ class QuestionType extends AbstractType{
 		
 		$builder->add('type', ChoiceType::class, array(
 				'choices'  => array(
-						'Tekst' => QuestionFactory::TEXT_QUESTION,
-						'Pojedynczy wybór' => QuestionFactory::SINGLE_CHOICE_QUESTION,		
-						'Wielokrotny wybór' => QuestionFactory::MULTIPLE_CHOICE_QUESTION
+						'Opowiedź w formie tekstu' => QuestionFactory::TEXT_QUESTION,
+						'Odpowiedź jednokrotnego wyboru' => QuestionFactory::SINGLE_CHOICE_QUESTION,		
+						'Odpowiedź wielokrotnego wyboru' => QuestionFactory::MULTIPLE_CHOICE_QUESTION
 				),
 				'label' =>'Rodzaj pytania'
 		));

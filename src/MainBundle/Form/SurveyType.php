@@ -14,14 +14,14 @@ class SurveyType extends AbstractType {
 	
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add ( 'title', TextType::class, array (
-				'label' => 'Wpisz tytuł ankiety.' 
+				'label' => 'Tytuł ankiety' 
 		) );
 		$builder->add ( 'description', TextareaType::class, array (
-				'label' => 'Opisz czego dotyczyć będzie ankieta.' 
+				'label' => 'Krótki opis' 
 		) );
 		
 		$builder->add ( 'activityChoice', ChoiceType::class, array (
-				'label' => 'Czy chcesz aby ankieta była aktywna cały czas?',
+				'label' => 'Podaj kryterium zakończenia',
 				'expanded' =>true,
 				'choices' => array(
 						'Limit odpowiedzi' => 'answerLimit',
@@ -44,11 +44,11 @@ class SurveyType extends AbstractType {
 		));
 		
 		$builder->add ( 'visibility', ChoiceType::class, array (
-				'label' => 'Czy chcesz aby ankiete widzieli wszyscy?',
+				'label' => 'Wybierz tryb widoczności',
 				'expanded' =>true,
 				'choices' => array(
-						'Tak, może ją widzieć każdy na tej stronie' => true,
-						'Nie, dostęp tylko za pośrednictwem linka' => false
+						'Widoczna dla  każdego na tej stronie' => true,
+						'Dostępna tylko za  pośrednictwem linku' => false
 				),
 				'preferred_choices' => array('true')
 		) );

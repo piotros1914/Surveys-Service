@@ -4,14 +4,9 @@ namespace MainBundle\Model;
 
 use MainBundle\Entity\Question;
 use MainBundle\Entity\Survey;
-use MainBundle\Form\DynamicQuestion;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-
-// use Poll\PollBundle\Service\ObjectFactory;
-// use Poll\PollBundle\Entity\QuestionImpl;
-// use Poll\PollBundle\Query\PollQuery;
-
+use MainBundle\Model\QuestionBuilder;
 
 class SurveyBuilder {
 
@@ -21,22 +16,13 @@ class SurveyBuilder {
 	
 	protected $survey;
 	
-
-
-	public function __construct($surveyId, $em, $form) {
-		$this->em = $em;
-		$this->form = $form;
-		$this->survey = $this->em->getRepository('MainBundle:Survey')->find($surveyId);
-
-	}
-		
-	public function createSurveyEditForm(){			
-		$this->createAllQuestions();
-		
-		$surveyFromView = $this->form->getForm();
-		return $surveyFromView->createView();		
-	}
+	protected $surveyId;
 	
+	public function __construct($survey, $form) {
+		$this->form = $form;
+		$this->survey = $survey;
+	}
+		
 	public function createSurveyForm(){
 			
 		$this->createAllQuestions();
@@ -51,39 +37,33 @@ class SurveyBuilder {
 		return $surveyFromView->createView();
 	}
 	
+	public function createSurveyWithoutSubmitButton(){	
+		
+		$this->createAllQuestions();
+	
+		$surveyFromView = $this->form->getForm();
+		return $surveyFromView->createView();
+	}
 	
 	private function createAllQuestions(){
-		$questionRepository = $this->em->getRepository('MainBundle:Question');
-		
-		
-		$query = $questionRepository->createQueryBuilder('p')
-		->where('p.surveyId = :surveyId')
-		->orderBy('p.position', 'ASC')
-		->setParameter('surveyId', $this->survey->getId())
-		->getQuery();
-			
-		$questions = $query->getResult ();
-		
-		$dq = new DynamicQuestion ( $this->form, $this->em );
-		
-		foreach ( $questions as $question ) {
-			$this->form = $dq->buildQuestion ( $question );
-		}
 	
+ 		$questions = $this->survey->getQuestions();		
+		$questionBuilder = new QuestionBuilder( $this->form);	
+		foreach ( $questions as $question ) {
+			$this->form = $questionBuilder->buildQuestion ( $question );
+		}	
 	}
 	
 	public function  setFormAction($url){
-		$this->form->setAction ($url);
-	
+		
+		$this->form->setAction ($url);	
 	}
 	
 	public function  getSurvey(){
+		
 		return $this->survey;
 	}
 	
-	
-	
-	
-	
+
 
 }

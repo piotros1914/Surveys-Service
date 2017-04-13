@@ -1,0 +1,50 @@
+{% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
+
+
+
+{% block title %}
+Pytanie {{question.position}}. {{ question.questionText }}
+
+{% endblock %}
+
+{% block link %}
+  	{{ parent() }}
+   <script src="{{ asset('bundles/main/js/jquery2.js') }}"></script>
+{% endblock %}
+
+{% block container %}
+<div class="container">	
+	<div class="col-md-12 bottom-buffer page-header">
+			<h1>
+				{{ survey.title }}				
+			</h1>
+			<h3>
+                Pytanie {{ question.position }}. {{ question.questionText }}			
+			</h3>
+	</div>    
+    <div class="bottom-buffer">
+        <table class="table table-striped">
+            <tbody>
+            	{% for answer in answers %}  
+                	 <tr> 
+                    	 <td class="col-md-1">
+                    	 	{{ loop.index}}.
+                    	 </td>
+                    	 <td>
+                	        {{ answer.answerText }}
+                    	 </td>         	    
+                  	 </tr>
+                {% endfor %}  
+            </tbody>
+        </table>  
+    </div>
+     <a href="{{ path('results', {'surveyId': survey.id}) }}">
+    	<i class="fa fa-angle-double-left" aria-hidden="true"></i>
+    	Powrót do wyników
+    </a>    
+</div>   
+{% endblock %}
+
+
+       
+

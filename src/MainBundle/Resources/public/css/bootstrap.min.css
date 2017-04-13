@@ -7554,9 +7554,7 @@ button.close {
 	font-size: 1.5em;
 }
 
-.top-buffer {
-	margin-top: 70px;
-}
+
 
 .top-buffer-10 {
 	margin-top: 10px;
@@ -7569,15 +7567,42 @@ button.close {
 .top-buffer-30 {
 	margin-top: 30px;
 }
-
-.bottom-buffer {
-	margin-bottom: 70px;
+.top-buffer-40 {
+	margin-top: 40px;
 }
+.top-buffer-50 {
+	margin-top: 50px;
+}
+.top-buffer-60 {
+	margin-top: 30px;
+}
+
+.top-buffer {
+	margin-top: 70px;
+}
+
 .bottom-buffer-10 {
 	margin-bottom: 10px;
 }
+.bottom-buffer-20 {s
+	margin-bottom: 20px;
+}
+.bottom-buffer-30 {
+	margin-bottom: 30px;
+}
+.bottom-buffer-40 {
+	margin-bottom: 40px;
+}
 .bottom-buffer-50 {
 	margin-bottom: 50px;
+}
+
+.bottom-buffer-60 {
+	margin-bottom: 60px;
+}
+
+.bottom-buffer {
+	margin-bottom: 70px;
 }
 
 .row-eq-height {
@@ -7592,20 +7617,7 @@ button.close {
 	justify-content: space-between;
 }
 
-.panel-transparent {
-	background: none;
-}
-
-.panel-transparent .panel-body {
-	background: rgba(255, 255, 255, 0.8) !important;
-}
-
-.jumbotron-img {
-	background: url("{{ asset('bundles/main/img/jumbotron2.jpg') }}")
-		no-repeat scroll 0 0/cover rgba(0, 0, 0, 0);
-	background: contain;
-	margin: auto;
-	padding-left: 100px;
-	width: 100%;
-	height: 300px;
+.without-spacing {
+	margin:0;
+	padding:0;
 }

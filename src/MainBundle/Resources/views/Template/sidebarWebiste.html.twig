@@ -6,12 +6,14 @@
 {% block link %}
   	{{ parent() }}
   	<link href="{{ asset('bundles/main/css/sidebar.css')}}" rel="stylesheet">
+  	 
+  	
 {% endblock %}
 
 {% block nav %}	 
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">  
 			<div class="navbar-header">                   
-               <a class="navbar-brand" href="{{ path('home') }}"> 	<img src="{{ asset('bundles/main/img/ankietka13.png') }}" alt="Ankieta" width="90%" height="90%">  </a>                                 
+               <a class="navbar-brand" href="{{ path('home') }}"> 	<img src="{{ asset('bundles/main/img/Ankietka_Baloo_px15.png') }}" alt="Ankieta" width="90%" height="90%">  </a>                                 
             </div>  	
                         
             <ul class="nav navbar-right top-nav">               
@@ -35,17 +37,41 @@
           	<div class="collapse navbar-collapse navbar-ex1-collapse">    
          		{% 
          		    set sideMenu = [
-                        {'path' : 'panel', 'name': ' Statystyki', 'icon': 'fa fa-fw fa-object-ungroup'},
-                        {'path' : 'showAllSurveys', 'name': ' W przygotowaniu', 'icon': 'fa fa-fw fa-pencil-square-o'},
-                        {'path' : 'showAllSurveys', 'name': ' Aktywne', 'icon': 'fa fa-fw fa-hourglass-half'},
-                        {'path' : 'showAllSurveys', 'name': ' Zakokończone', 'icon': 'fa fa-fw fa-hourglass-end'},
+                        {'path' : 'panel', 'name': ' Panel ankiet', 'icon': 'fa fa-fw fa-list'},
+                        {'path' : 'newSurvey', 'name': ' Nowa ankieta', 'icon': 'fa fa-fw fa-plus'}
                     ]
+                %}
+                 	{%    
+                    set surveysMenu = [ 
+                        {'path' : 'panel', 'name': ' Panel', 'icon': 'fa fa-fw fa-desktop'},
+                        {'path' : 'showAllActiveSurveys', 'name': ' Aktywne', 'icon': 'fa fa-fw fa-hourglass-half'},
+                        {'path' : 'showAllEndedSurveys', 'name': ' Zakończone', 'icon': 'fa fa-fw fa-hourglass-end'},
+                    ]
+                    
          		%}
                 <ul class="nav navbar-nav navbar-tabs side-nav">
+
                     {% for item in sideMenu %}
-                    	<li {{ app.request.get('_route') == item['path'] ? 'class="active"' : ''}}>
-                            <a href="{{ path(item['path']) }}"><i class="{{ item['icon'] }}" aria-hidden="true"></i>{{ item['name'] }}</a>
-                        </li>  
+                        {% if item['path']  == 'panel' %}
+                        	 <li class="dropdown">
+                        	 	 <a href="javascript:;" data-toggle="collapse" data-target="#demo">
+                        	 	 	 <i class="{{ item['icon'] }}" aria-hidden="true"></i>
+                            	 	 Twoje ankiety
+                            	 	 <i class="fa fa-fw fa-caret-down"></i>
+                        	 	 </a>
+                            	 <ul id="demo" class="collapse">
+                                	 {% for item in surveysMenu %}
+                                    	<li {{ app.request.get('_route') == item['path'] ? 'class="active"' : ''}}>
+                                            <a href="{{ path(item['path']) }}"><i class="{{ item['icon'] }}" aria-hidden="true"></i>{{ item['name'] }}</a>
+                                        </li>  
+                                     {% endfor %}       
+                            	</ul>
+                        	</li>
+                        {% else %}
+                            <li {{ app.request.get('_route') == item['path'] ? 'class="active"' : ''}}>
+                                <a href="{{ path(item['path']) }}"><i class="{{ item['icon'] }}" aria-hidden="true"></i>{{ item['name'] }}</a>
+                            </li>                     
+                        {% endif %}
                     {% endfor %}                            
                 </ul>
 		  </div>  
@@ -54,12 +80,20 @@
 
 {% block mainContainer %}
      <div id="wrapper">
-	<div id="page-wrapper">
+	<div id="page-wrapper" style="padding-top:0">
 		{% block container %}
 
 		{% endblock %}
 	</div>
-</div>       
+
+</div>    
+
+
+
+
+
+
+   
 {% endblock %}
 
 

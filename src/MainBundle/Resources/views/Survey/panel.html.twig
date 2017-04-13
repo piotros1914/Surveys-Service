@@ -1,24 +1,27 @@
 {% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
 
 {% block title %}
-
-  	panel
-	
+Panel ankiet	 
 {% endblock %}
 
-{% block link %}
-
-  	{{ parent() }}
-	
-{% endblock %}
 
 {% block container %}
-        <h2 class="page-header">
-        	Twój panel sterowania! 
-        </h2>
-        <h3> 
-        	<small>Co chcesz teraz zrobić?</small>
-        </h3>
-         <a href="{{ path('newSurvey') }}">Nowa ankieta</a>  
+<div class="row">
+	<div class="jumbotron vertical-center">
+		<div class="page-header" style="padding-left: 50px">
+			<h1>Panel ankiet!</h1>
+			<p>Witaj w centrum zarządzania ankietami. Tutaj możesz tworzyć
+				ankiety, sondaże, testy oraz przeglądać wyniki.</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="container">
+    	<h2>Co chcesz teraz zrobić?</h2>
+    	<a href="{{ path('newSurvey') }}">Nowa ankieta</a>
+	</div>	
+</div>
+
+
 {% endblock %}
 

@@ -1,0 +1,22 @@
+{% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}    
+
+{% block headline %}
+    <div class="jumbotron-img vertical-center">
+    	<div class="row">
+    		
+    			<img src="{{ asset('bundles/main/img/Ankietka13.png') }}" alt="Ankieta"
+    				width="50%" height="50%">
+    	</div>
+    </div>
+{% endblock %}
+
+
+{% block container %}
+    <h1>Błąd 404.  Strona, której  szukasz nie została znaleziona</h1>
+    <p>
+       Prosze spradzić poprawność wpisanego adresu URL lub powrócić do strony
+       <a href="{{ path('home') }}">domowej</a>.
+    </p>
+{% endblock %}
+
+

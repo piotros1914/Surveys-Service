@@ -4,146 +4,91 @@ namespace MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use MainBundle\Services\PaginationWidget;
 
-
-class WidgetsController extends Controller
-{
+class WidgetsController extends Controller {
 	
 	/**
 	 * @Template()
 	 */
-	public function lastSurveysAction($max = 3)
-	{
-		 $repository = $this->getDoctrine()->getRepository('MainBundle:Survey');
+	public function lastSurveysWidgetAction($max = 3) {
+		$repository = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' );
+		$surveys = $repository->findLastSurveys ( $max );
 		
-		 $query = $repository->createQueryBuilder('p')
-		->where('p.visibility = :visibility')
-		->orderBy('p.addedDate', 'DESC')
-		->setParameter('visibility', true)
-		->setMaxResults($max)
-		->getQuery();
-		
-		$surveys = $query->getResult();
-		$now = new \DateTime();
-		
-		return array('surveys' => $surveys,
-				'now' => $now
+		return array (
+				'surveys' => $surveys 
 		);
 	}
 	
 	/**
 	 * @Template()
 	 */
-	public function popularSurveysAction($max = 3)
-	{
-		$repository = $this->getDoctrine()->getRepository('MainBundle:Survey');
+	public function popularSurveysWidgetAction($max = 3) {
+		$repository = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' );
+		$surveys = $repository->findPopularSurveys ( $max );
 		
-		$query = $repository->createQueryBuilder('p')
-		->where('p.visibility = :visibility')
-		->orderBy('p.responesNumber', 'DESC')
-		->setParameter('visibility', true)
-		->setMaxResults($max)
-		->getQuery();
-		
-		$surveys = $query->getResult();
-		$now = new \DateTime();
-	
-		return array('surveys' => $surveys,
-						'now' => $now
+		return array (
+				'surveys' => $surveys 
 		);
 	}
 	
 	/**
 	 * @Template()
 	 */
-	public function allSurveysAction()
-	{
-		$now = new \DateTime('now');
-		$delay = new \DateTime('last month');
-		$repository = $this->getDoctrine()->getRepository('MainBundle:Survey');
+	public function allActiveSurveysWidgetAction() {
+		$repository = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' );
+		$surveysNumber = $repository->numberAllVisibleAndActiveSurveys ();
 		
-		$query = $repository->createQueryBuilder('p')
-		->where('p.addedDate <= :now')
-		->andWhere('p.addedDate >= :delay')
-		->setParameter('now', $now)
-		->setParameter('delay', $delay)
-		->getQuery();
+		return array (
+				'surveysNumber' => $surveysNumber 
+		);
+	}
+	/**
+	 * @Template()
+	 */
+	public function allResultsWidgetAction() {
+		$repository = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' );
+		$surveysNumber = $repository->numberAllVisibleAndCompletedSurveys ();
 		
-		$surveys = $query->getResult();
-		$surveysNumber = count ($surveys);
-		
-		return array('surveysNumber' => $surveysNumber);
-		
-		
-		return array();
+		return array (
+				'surveysNumber' => $surveysNumber 
+		);
 	}
 	
 	/**
 	 * @Template()
 	 */
-	public function allResultsAction()
-	{
-		return array();
+	public function userNumberWidgetAction() {
+		$users = $this->getDoctrine ()->getRepository ( 'MainBundle:User' )->findAll();
+		$surveysNumber = count($users);
+	
+		return array (
+				'usersNumber' => $surveysNumber
+		);
 	}
 	
 	/**
 	 * @Template()
 	 */
-	public function paginationAction($page = 1, $pagesQuantity = 1)
-	{
-		$size = 5;
-		
-		if( $pagesQuantity <= $size){
-			$size = $pagesQuantity;
-		}
-		
-
-		$offset = (int) ($size/2);
-		
-		
-		if($page > $offset){
-			
-			
-			if($page > ($pagesQuantity - $offset)){
-				$lastPage = $pagesQuantity;
-				$firstPage = $lastPage - $size + 1;
-			}
-			else{
-				
-				$firstPage = $page - $offset;
-				$lastPage = $page + $offset;
-			}
-				
-		}	
-		
-		else {
-			$firstPage = 1;
-			$lastPage = $size;
-		}
-		
-		
-		
-		
-		
-		$nextPage = $page + 1;
-		$previousPage = $page - 1;
-		if($previousPage <= 0)
-			$previousPage = 1;
-		if($nextPage >= $pagesQuantity)
-			$nextPage = $pagesQuantity;
-		
+	public function visitCounterWidgetAction() {
+		$em = $this->getDoctrine ()->getManager ();
+		$visitCounter = $em->getRepository ( 'MainBundle:VisitCounter' )->findOneBy ( array (), array ('id' => 'DESC') );
+		$usersNumber = $visitCounter->getVisits();
 	
-
-		return array(
-				'firstPage' =>$firstPage,
-				'lastPage' =>$lastPage,
-				'currentPage' => $page,
-				'previousPage' => $previousPage,
-				'nextPage' => $nextPage
+		return array (
+				'usersNumber' => $usersNumber
 		);
 	}
 	
 	
 	
-
+	/**
+	 * @Template()
+	 */
+	public function paginationWidgetAction($actualPage, $numberOfPages) {
+		$pagination = new PaginationWidget ( $actualPage, $numberOfPages );
+		return array (
+				'pagination' => $pagination 
+		);
+	}
 }

@@ -1,17 +1,87 @@
 {% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
 
-{% block title %}  
-	O projekcie ankietka
+{% block title %}
+O ankietce
 {% endblock %}
 
-{% block headline %}	
-          <h1>O projekcie!</h1>
+{% block link %}
+{{ parent() }}
+<link href="{{ asset('bundles/main/css/walam.css')}}" rel="stylesheet">
 {% endblock %}
+
+{% block headline %}
+    <div class="jumbotron-img">
+    	<div class="row title-container">
+    		<div class="title bottom-buffer">
+    			<h1 class="title-h1">Ankietka.eu</h1>
+    			<h3 class="title-h2">Chcesz sie o nas czegoś dowiedzieć?</h3>
+    		</div>
+    	</div>
+    </div>
+{% endblock %}
+
 
 {% block container %}
-    <p>
-    	Tekst o projekcie
-    </p>    
+<div class="container top-buffer-30 bottom-buffer-30">
+	<div class="col-md-6 col-md-offset-1 top-buffer bottom-buffer">
+		<div class="row">
+			<h2>O nas</h2>
+			<p>
+    			Czym jest ankietka? Jest to prosty serwis do przeprowadzania
+    			internetowych ankiet, badań, sondaży lub testów. Przeznaczony jest
+    			dla wszystkich osób potrzebujących zebrac opinie lub sprawdzić wiedzę
+    			na dany temat. Korzystanie z serwisu jest łatwe i przyjemne, a przy
+    			tym bardzo intuicyjne. Najwięszką zaletą serwisu jest bezpłatny
+    			dostęp do wszystkich jego funkcji.
+			</p>
+		</div>
+
+		<div class="row">
+			<h2>Dlaczego powstał ten serwis?</h2>
+			<p>
+				Hej! A może pouczmy się programować i zróbmy serwis?
+				Ankietka.eu powstała jako projekt naukowy i została udostępniona za
+				pośrednictwem internetu. Obecnie dosłownie każdy możesz z niego
+				korzystać:)
+			</p>
+		</div>
+		<div class="row">
+			<h2>Dane kontaktowe</h2>
+			<div class="service-block vertical-center" style="margin-bottom: 0">
+				<div class="services_box_left">
+					<i class="fa fa-globe" aria-hidden="true"></i>
+				</div>
+				<div class="services_box_right">
+					<p>ankietka.eu</p>
+				</div>
+			</div>
+			<div class="service-block vertical-center" style="margin-bottom: 0">
+				<div class="services_box_left">
+					<i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+				</div>
+				<div class="services_box_right">
+					<p>kontakt@ankietka.eu</p>
+				</div>
+			</div>
+			<p>
+				Jeżeli pragniesz zapytać o funkcjonowanie strony, masz jakieś
+				uwagi lub poprostu chcesz skontaktować się z autorem to pisz śmiało!
+				Odpowiemy na każdą wiadomość.
+			</p>
+
+		</div>
+	</div>
+	<div class="col-md-3 col-md-offset-1 vertical-center" style="height: 100%">
+		<div>
+			<img src="{{ asset('bundles/main/img/checklist640.png') }}" alt="Ankieta">
+		</div>
+	</div>
+
+</div>
+{{ render(controller('MainBundle:Default:services')) }}
+
+
+
 {% endblock %}
 
 

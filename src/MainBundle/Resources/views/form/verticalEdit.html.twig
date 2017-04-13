@@ -3,13 +3,13 @@
 {% block form_row -%}
 
 <div class="row">
-    <div class="panel panel-question">
+    <div class="panel panel-default">
       <div class="panel-heading">
           <div class="text-right">
           		<button type="button" class="btn btn-default btn-xs moveUp" {{ block('widget_attributes') }}><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
 				<button type="button" class="btn btn-default btn-xs moveDown" {{ block('widget_attributes') }}><i class="fa fa-arrow-down" aria-hidden="true"></i></button>         
-          		<button type="button" class="btn btn-default btn-xs edit" {{ block('widget_attributes') }}>Edytuj</button>
-            	<button type="button" class="btn btn-danger btn-xs delete" {{ block('widget_attributes') }}>Usuń</button>
+          		<button type="button" class="btn btn-default btn-xs edit" {{ block('widget_attributes') }}><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edytuj</button>
+            	<button type="button" class="btn btn-danger btn-xs delete" {{ block('widget_attributes') }}><i class="fa fa-times" aria-hidden="true"></i> Usuń</button>
           </div>  		
       </div>
       <div class="panel-body">
@@ -21,10 +21,6 @@
       </div>
     </div>
 </div>
-
-
-
-
 
 {%- endblock form_row %}
 

@@ -1,20 +1,39 @@
- <div class="col-sm-4">
-     <div class="panel panel-yellow">
-          <div class="panel-heading">
-        	   <h3 class="panel-title">{{ question.questionText }}</h3>
-          </div>
-          <div class="panel-body">
-           	<ul>
-                {% for answer in answers %}   
-                    <li>
-                    	{{ answer.answerText }}	
-                    </li>
-                {% endfor %}  
-        	</ul>
-        	<a hef="">Zobacz wszystkie</a>
-        </div>
-    </div>
- </div>  
+
+<div class="col-md-offset-0 col-md-12">
+	<div class="panel panel-yellow">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				{{ question.position }}. {{ question.questionText }}
+			</h3>
+		</div>
+		{% if dataIsEmpty %}
+    		<div class="panel-body vertical-center">  			
+    			<h4 class="text-center">Brak odpowiedzi</h4>  			
+    		</div>
+		{% else %}
+    		<div class="panel-body">
+        		  <p class="">Ostanio dodane odpowiedzi:</p>		 
+    			  <table class="table table-striped">
+                        <tbody>
+                        	{% for answer in answers %}  
+                            	 <tr> 
+                                	 <td class="col-md-1">
+                                	 	{{ loop.index}}.
+                                	 </td>
+                                	 <td>
+                            	        {{ answer.answerText }}
+                                	 </td>         	    
+                              	 </tr>
+                            {% endfor %}  
+                        </tbody>
+                    </table>  	
+    			    <a href="{{ path('allTextResult', {'questionId': question.id}) }}">
+                		Zobacz wszystkie
+              		</a>	
+    		</div>
+		{% endif %}
+	</div>
+</div>
 
 
 

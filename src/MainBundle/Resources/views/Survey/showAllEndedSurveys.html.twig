@@ -1,0 +1,104 @@
+{% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
+
+{% block title %}
+
+Twoje ankiety
+
+{% endblock %}
+
+{% block link %}
+
+{{ parent() }}
+
+{% endblock %}
+
+{% block container %}
+
+	<div class="container top-buffer-20">
+		<div class="page-header page-heading">
+			<h1 class="pull-left">Zakończone ankiety</h1>
+			<div class="clearfix"></div>
+		</div>
+		<p class="lead">W tym miejsu możesz przeglądać wyniki zakończonych ankiet oraz nimi zarządzać.</p>
+		<table class="table forum table-striped">
+			<thead>
+				<tr >
+					<th>
+						<h3>Ankieta</h3>
+					</th>			
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Data dodania
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Kryterium zakończenia
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm text-center">
+						Liczba odpowiedzi
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Wyniki
+					</th>
+					<th class="cell-stat-2x hidden-xs hidden-sm">
+						Akcje
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for survey in surveys %}
+    				<tr>
+    					<td  style="word-wrap:break-word; max-width:350px">   						
+    						<h4> 
+    							<a href="{{ path('survey', {'surveyId': survey.id}) }}">{{ survey.title }}</a><br>
+    							<small>{{survey.description }}</small>
+    						</h4>
+    					</td>   					
+    					<td>
+    					     <small> 
+    						     {{survey.addedDate|localizeddate('full', 'none', app.request.locale, null, "d MMMM Y, HH:mm")}}
+    						 </small>
+    					</td> 					   
+    					<td>
+    					    {% if survey.activity.endDate is not null %}
+                                <small> 
+        					    	Data: {{survey.activity.endDate|localizeddate('full', 'none', app.request.locale, null, "d MMMM Y, HH:mm")}} 
+                                </small>
+                            {% endif %}</br>
+                             {% if survey.activity.answerLimit is not null %}
+                                <small> 
+        					    	Limit odpowiedzi: {{survey.activity.answerLimit}}
+                                </small>
+                            {% endif %}</br>                        
+    					</td>
+    					<td class="text-center">
+    						{{survey.responesNumber}}
+    					</td>
+    					<td>
+    						<a href="{{ path('results', {'surveyId': survey.id}) }}">Zobacz</a>
+    					</td>
+    					<td style="word-wrap:break-word; max-width:100px">
+        					<div class="row">
+        						<a href="{{ path('showSurveyToEdit', {'surveyId': survey.id}) }}" class="btn btn-default btn-xs" role="button">
+                					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                				</a>
+                				<a href="{{ path('deleteSurvey', {'surveyId': survey.id}) }}" class="btn btn-danger btn-xs" role="button">
+                					<i class="fa fa-times" aria-hidden="true"></i>
+                				</a>
+    						</div>    						
+    					</td>
+    				</tr>
+				{% else %}
+    				<tr>
+    					<td>-</td>
+    					<td>-</td>
+    					<td>-</td>
+    					<td>-</td>
+    					<td>-</td>
+    				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+</div>
+
+
+{% endblock %}
+

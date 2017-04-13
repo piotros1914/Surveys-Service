@@ -3,11 +3,10 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\IsNull;
 
 /**
  * @ORM\Table(name="answers")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Repository\AnswerRepository")
  */
 class Answer {
 	
@@ -23,21 +22,15 @@ class Answer {
 	 */
 	private $answerText;
 	
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="questionId", type="integer")
-	 */
-	private $questionId;
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="surveyId", type="integer")
-	 */
-	private $surveyId;
 	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers", cascade={"persist"})
+	 * @ORM\JoinColumn(name="question", referencedColumnName="id")
+	 */
+	private $question;
 
- 
+	
+  
 
     /**
      * Get id
@@ -47,78 +40,6 @@ class Answer {
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set qestionId
-     *
-     * @param integer $qestionId
-     *
-     * @return Option
-     */
-    public function setQestionId($qestionId)
-    {
-        $this->qestionId = $qestionId;
-
-        return $this;
-    }
-
-    /**
-     * Get qestionId
-     *
-     * @return integer
-     */
-    public function getQestionId()
-    {
-        return $this->qestionId;
-    }
-
-    /**
-     * Set surveyId
-     *
-     * @param integer $surveyId
-     *
-     * @return Option
-     */
-    public function setSurveyId($surveyId)
-    {
-        $this->surveyId = $surveyId;
-
-        return $this;
-    }
-
-    /**
-     * Get surveyId
-     *
-     * @return integer
-     */
-    public function getSurveyId()
-    {
-        return $this->surveyId;
-    }
-
-    /**
-     * Set questionId
-     *
-     * @param integer $questionId
-     *
-     * @return Option
-     */
-    public function setQuestionId($questionId)
-    {
-        $this->questionId = $questionId;
-
-        return $this;
-    }
-
-    /**
-     * Get questionId
-     *
-     * @return integer
-     */
-    public function getQuestionId()
-    {
-        return $this->questionId;
     }
 
     /**
@@ -144,9 +65,28 @@ class Answer {
     {
         return $this->answerText;
     }
-    
-   
-	
-    
-    
+
+    /**
+     * Set question
+     *
+     * @param \MainBundle\Entity\Question $question
+     *
+     * @return Answer
+     */
+    public function setQuestion(\MainBundle\Entity\Question $question = null)
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    /**
+     * Get question
+     *
+     * @return \MainBundle\Entity\Question
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
 }

@@ -3,39 +3,48 @@
 
 
 
-{% block title %}Kreator ankiety{% endblock %}
+{% block title %}
+Kreator ankiety
+{% endblock %}
 
 {% block container %}
   
-  <h2>Edycja pytania</h2>
-
-         <div class="col-sm-offset-1 col-sm-8 bottom-buffer">
-      
-            {{ form_start(questionForm) }}                 	             
-               	{{ form_row(questionForm.question.type) }}
-               	{{ form_row(questionForm.question.questionText) }}	
-               	<div id="options" data-prototype="{{ form_widget(questionForm.question.options.vars.prototype) | e }}">	
-               	
-                     {% for option in questionForm.question.options %}
-                        {{ form_widget(option) }}
-                     {% endfor %}
-                     
-                     <div class="text-right" id="addOptionBtn">
-                       	 <button id="add-another-option" type="button" class="btn btn-default btn-xs "><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj  opcje </button>             	 
-                     </div>
-              	</div>   
-           </div>       
-           <div class="col-sm-12">             
-                 <div class="row ">
-                     <div class=" col-sm-6">
-                       {{ form_row(questionForm.addNextQuestion) }} 
-                     </div>
-                      <div class="col-sm-6">
-                       {{ form_row(questionForm.endCreateSurvey) }}
-                     </div> 	 	
-                 </div>	
-                 {{ form_end(questionForm) }}   
-            </div>     
+<div class="row">
+	<div class="jumbotron vertical-center">
+		<div class="page-header" style="padding-left: 50px">
+			<h1>Pytanie: {{ nextQuestionNumber }}</h1>
+			<p>
+				Wybiesz rodzaj pytania, a następnie wpisz jego treść i możliwe opcje.
+			</p>
+		</div>
+	</div>
+</div>
+ <div class="col-sm-offset-1 col-sm-8 bottom-buffer">
+    {{ form_start(questionForm) }}                 	             
+       	{{ form_row(questionForm.question.type) }}
+       	{{ form_row(questionForm.question.questionText) }}	
+       	<div id="options" data-prototype="{{ form_widget(questionForm.question.options.vars.prototype) | e }}">	
+       	
+             {% for option in questionForm.question.options %}
+                {{ form_widget(option) }}
+             {% endfor %}
+             
+             <div class="text-right" id="addOptionBtn">
+               	 <button id="add-another-option" type="button" class="btn btn-default btn-xs "><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj  opcje </button>             	 
+             </div>
+      	</div>   
+   </div>       
+<div class="col-sm-12">             
+     <div class="row ">
+         <div class=" col-sm-6">
+           {{ form_row(questionForm.addNextQuestion) }} 
+         </div>
+          <div class="col-sm-6">
+           {{ form_row(questionForm.endCreateSurvey) }}
+         </div> 	 	
+     </div>	
+     {{ form_end(questionForm) }}   
+</div>     
           
        
       

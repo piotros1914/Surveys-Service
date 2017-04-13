@@ -1,0 +1,77 @@
+
+<div class="col-md-offset-0 col-md-12">
+	<div class="panel  panel-green">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				{{ question.position }}
+				.
+				{{ question.questionText }}
+			</h3>
+		</div>
+		<div class="panel-body">
+		    {% if dataIsEmpty %}
+		    		<h4 class="text-center vertical-center">Brak odpowiedzi</h4>
+		    {% else %}
+		    	<div class="flot-chart">
+				<div class="flot-chart-content"
+					id="flot-mypie-chart{{ question.id }}"></div>
+				</div>
+		    {% endif %}
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(function() {
+    
+        var data = [
+        	  {% for option in options %}   
+        	  {
+        		  label: "{{ option.optionText }}",
+                  data:  {{option.answerNumber}}
+        	  },       	 
+              {% endfor %}  
+         
+        ];
+    
+        var plotObj = $.plot($("#flot-mypie-chart{{ question.id }}"), data, {
+
+        	tooltipOpts: {
+        		  content: "%y.0, %s", // show value to 0 decimals
+        		  shifts: {
+        		      x: 20,
+        		      y: 0
+        		  },
+        		  defaultTheme: false
+        		},
+            series: {
+                pie: {
+                    show: true,   
+                    radius: 150,                     
+                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
+            },
+            legend: {
+            	show:false 	
+            }
+                
+        });
+    
+    });
+
+});
+   
+</script>

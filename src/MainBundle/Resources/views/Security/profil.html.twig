@@ -1,22 +1,21 @@
 {% extends 'MainBundle:Template:sidebarWebiste.html.twig' %}
+{% form_theme changePasswordForm 'MainBundle:form:horizontal.html.twig' %}
+
 
 {% block title %}
-
-  	panel
-	
+  	Profil	
 {% endblock %}
 
-{% block link %}
-
-  	{{ parent() }}
-	
-{% endblock %}
 
 {% block container %}
-      
-        <h3> 
-        	Profil
-        </h3>
-        
+<div class="container">
+	<div class="col-md-12 ">
+		<h1 class="page-header">Twój profil: {{ app.user.username }} </h1>
+		<h3 class="top-buffer">Zmiana hasła</h3>
+		<div class="col-md-6">
+			{{ form(changePasswordForm) }}
+		</div>
+	</div>
+</div>
 {% endblock %}
 

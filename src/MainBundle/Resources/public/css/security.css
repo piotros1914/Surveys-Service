@@ -1,0 +1,23 @@
+.panel-transparent {
+	background: none;
+}
+
+.panel-transparent .panel-body {
+	background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.security {
+	background: none;
+}
+
+body {
+	background: url("/ankieter/web/bundles/main/img/apple.jpg") no-repeat center center fixed;
+	height: 100%;
+	background-size: cover;
+}
+
+
+
+
+
+

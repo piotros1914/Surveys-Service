@@ -129,4 +129,21 @@ class Activity
     }
     
     
+    
+    /**
+     * @var \DateTime
+     */
+    private $enddate;
+
+    /**
+     * @var integer
+     */
+    private $answerlimit;
+
+    /**
+     * @var boolean
+     */
+    private $isAlwaysactive;
+
+
 }

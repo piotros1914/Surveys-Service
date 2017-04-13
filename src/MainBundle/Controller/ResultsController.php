@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use MainBundle\Services\QuestionFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
 /**
@@ -20,96 +20,95 @@ class ResultsController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$question = $em->getRepository('MainBundle:Question')->find($questionId);
 		
-		if($question->getType() == QuestionFactory::TEXT_QUESTION){
-			$response = $this->textResultAction($questionId);
-			return $response;
+		$type = $question->getType();
+		
+		switch($type) {
+			case QuestionFactory::TEXT_QUESTION:
+				$response = $this->textResultAction($question);
+				break;
+			case QuestionFactory::SINGLE_CHOICE_QUESTION:
+				$response = $this->pieCharResultAction($question);
+				break;
+			case QuestionFactory::MULTIPLE_CHOICE_QUESTION:
+				$response = $this->barResultAction($question);
+				break;
+			default:
+				throw new \Exception("Invalid question type");
 		}
-		
-		if($question->getType() == QuestionFactory::SINGLE_CHOICE_QUESTION){
-			$response = $this->charResultAction($questionId);
-			return $response;
-		}
-		
-		if($question->getType() == QuestionFactory::MULTIPLE_CHOICE_QUESTION){
-			$response = $this->barResultAction($questionId);
-			return $response;
-		}
-		
-		
-				
-
-		return new Response('brak');
+		return $response;
 	}
 	
-	
-	/**
-	 * @Route("/textResult/{$questionId}", name="textResult")
-	 * 
-	 */	
-	public function textResultAction($questionId)
-	{		
-		$em = $this->getDoctrine()->getManager();
-		$answers = $em->getRepository('MainBundle:Answer')->findBy(array('questionId'=>$questionId), array(),3);
-		$question = $em->getRepository('MainBundle:Question')->find($questionId);
-		
-		return $this->render('MainBundle:Results:textResult.html.twig', array(
-				'answers' => $answers,
-				'question' => $question
-				
-		));		
-	}
-	
-	/**
-	 * @Route("/charResult/{$questionId}", name="charResult")
-	 *
-	 */
-	public function charResultAction($questionId)
-	{
-		$em = $this->getDoctrine()->getManager();
-		$answers = $em->getRepository('MainBundle:Answer')->findBy(array('questionId'=>$questionId));
-		$options = $em->getRepository('MainBundle:Option')->findBy(array('questionId'=>$questionId));
-		$question = $em->getRepository('MainBundle:Question')->find($questionId);
-		foreach ($answers as $answer){
-			foreach ($options as $option){
-					if($option->getOptionText() == $answer->getAnswerText() )
-						$option->answerNumberIncrease();
-					
-			}
+	public function textResultAction($question) {
+		$em = $this->getDoctrine ()->getManager ();
+		$answers = $em->getRepository ( 'MainBundle:Answer' )->findLastAnswer($question->getId(), 10);
 			
-		}
-		return $this->render('MainBundle:Results:charResult.html.twig', array(
-				'options' => $options,
+		$answerNumber = count ( $answers );
+		$dataIsEmpty = true;
+		if ($answerNumber != 0)
+			$dataIsEmpty = false;
+		
+		return $this->render ( 'MainBundle:Results:textResult.html.twig', array (
+				'answers' => $answers,
 				'question' => $question,
-				
+				'dataIsEmpty' => $dataIsEmpty 
 		));
 	}
 	
-	/**
-	 * @Route("/barResult/{$questionId}", name="barResult")
-	 *
-	 */
-	public function barResultAction($questionId)
-	{
-		$em = $this->getDoctrine()->getManager();
-		$answers = $em->getRepository('MainBundle:Answer')->findBy(array('questionId'=>$questionId));
-		$options = $em->getRepository('MainBundle:Option')->findBy(array('questionId'=>$questionId));
-		$question = $em->getRepository('MainBundle:Question')->find($questionId);
-		foreach ($answers as $answer){
-			foreach ($options as $option){
-				if($option->getOptionText() == $answer->getAnswerText() )
-					$option->answerNumberIncrease();
-						
+	public function pieCharResultAction($question) {
+		$dataIsEmpty = true;
+		$answers = $question->getAnswers ();
+		$options = $question->getOptions ();
+		foreach ( $answers as $answer ) {
+			foreach ( $options as $option ) {
+				if ($option->getOptionText () == $answer->getAnswerText ()) {
+					$option->answerNumberIncrease ();
+					$dataIsEmpty = false;
+				}
 			}
-				
 		}
+		
+		return $this->render ( 'MainBundle:Results:pieCharResult.html.twig', array (
+				'options' => $options,
+				'question' => $question,
+				'dataIsEmpty' => $dataIsEmpty 
+		));
+	}
+	
+	public function barResultAction($question) {
+		$dataIsEmpty = true;
+		$answers = $question->getAnswers ();
+		$options = $question->getOptions ();
+		foreach ( $answers as $answer ) {
+			foreach ( $options as $option ) {
+				if ($option->getOptionText () == $answer->getAnswerText ()) {
+					$option->answerNumberIncrease ();
+					$dataIsEmpty = false;
+				}
+			}
+		}
+		
 		return $this->render('MainBundle:Results:barResult.html.twig', array(
 				'options' => $options,
 				'question' => $question,
+				'dataIsEmpty' => $dataIsEmpty,
 	
 		));
 	}
 	
-	
-
-
+	/**
+	 * @Route("/allTextResult/{questionId}", name="allTextResult")
+	 * @Template()
+	 */
+	public function allTextResultsAction($questionId) {
+		$em = $this->getDoctrine ()->getManager ();
+		$question = $em->getRepository ( 'MainBundle:Question' )->find ( $questionId );
+		$survey = $question->getSurvey ();
+		$answers = $question->getAnswers ();
+		
+		return array (
+				'answers' => $answers,
+				'question' => $question,
+				'survey' => $survey 
+		);
+	}
 }

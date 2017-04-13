@@ -1,0 +1,47 @@
+{% extends 'MainBundle:Template:normalWebsiteWithBar.html.twig' %}
+
+
+{% block title %}
+	Wynik zakończonych ankiet
+{% endblock %}
+
+{% block container %}
+<div class="container top-buffer-30 bottom-buffer-30">
+	<div class="page-header page-heading">
+		<h1 class="pull-left">Wyniki zakończonych ankiet</h1>
+		<div class="clearfix"></div>
+	</div>
+	<table class="table forum table-striped">
+		<thead>
+			<tr>
+				<th>
+					<h3>Ankieta</h3>
+				</th>
+				<th class="text-center">Liczba ankietowanych</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for survey in surveys %}
+			<tr>
+				<td>
+					<h4>
+						<a href="{{ path('result', {'surveyId': survey.id}) }}">{{ survey.title }}</a><br>
+						<small>{{survey.description }}</small>
+					</h4>
+				</td>
+				<td class="text-center">{{ survey.responesNumber }}</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td>-</td>
+				<td>-</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="text-center">
+		{{ render(controller('MainBundle:Widgets:paginationWidget',{'actualPage' : actualPage, 'numberOfPages': numberOfPages})) }}
+	</div>
+</div>
+{% endblock %}
+

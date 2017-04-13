@@ -5,9 +5,8 @@ namespace MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use MainBundle\Form\DynamicQuestion;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use MainBundle\Model\SurveyBuilder;
+use MainBundle\Entity\VisitCounter;
 
 class DefaultController extends Controller {
 	/**
@@ -15,8 +14,42 @@ class DefaultController extends Controller {
 	 * @Template()
 	 */
 	public function indexAction() {
+		$this->changeVisitCounter();
+				
 		return array ();
 	}
+	
+
+	private function changeVisitCounter() {
+		$em = $this->getDoctrine ()->getManager ();
+		$visitCounter = $em->getRepository ( 'MainBundle:VisitCounter' )->findOneBy ( array (), array (
+				'id' => 'DESC' 
+		) );
+		
+		if (! $visitCounter) {
+			$visitCounter = new VisitCounter ();
+			$em->persist ( $visitCounter );
+			$em->flush ();
+			return;
+		} 
+		
+		$date = new \DateTime ();
+		$lastDate = $visitCounter->getDate ();
+		$lastDateStr = $lastDate->format ( 'Y-m-d' );
+		$dateStr = $date->format ( 'Y-m-d' );
+		
+		if ($dateStr != $lastDateStr)
+			$visitCounter = new VisitCounter ();
+		else {
+			$visitsNumber = $visitCounter->getVisits ();
+			$visitsNumber = $visitsNumber + 1;
+			$visitCounter->setVisits ( $visitsNumber );
+		}
+		
+		$em->persist ( $visitCounter );
+		$em->flush ();
+	}
+
 	
 	/**
 	 * @Route("/about", name="about")
@@ -25,119 +58,107 @@ class DefaultController extends Controller {
 	public function aboutAction() {
 		return array ();
 	}
-		
+	
 	/**
 	 * @Route("/survey/{surveyId}", name="survey")
 	 * @Template()
 	 */
 	public function surveyAction($surveyId) {
+		$em = $this->getDoctrine ()->getManager ();
+		$survey = $em->getRepository ( 'MainBundle:Survey' )->find ( $surveyId );
 		
+		if (! $survey)
+			throw $this->createNotFoundException ( 'Wskazany zasób nie istnieje' );
 		
-		$em = $this->getDoctrine()->getManager();
-		$form = $this->createFormBuilder();
-		
-		$surveyBuilder = new SurveyBuilder($surveyId, $em, $form);
-		$surveyBuilder->setFormAction(
-					$this->generateUrl ( 'answer', array (
-							'surveyId' => $surveyId					
-				) ));
-		
-		return array(
-				'survey' => $surveyBuilder->getSurvey(),
-				'form' => $surveyBuilder->createSurveyForm()
+		$form = $this->createFormBuilder ();
+		$surveyBuilder = new SurveyBuilder ( $survey, $form );
+		$surveyBuilder->setFormAction ( $this->generateUrl ( 'answer', array (
+				'surveyId' => $surveyId 
+		) ) );
+		return array (
+				'survey' => $surveyBuilder->getSurvey (),
+				'form' => $surveyBuilder->createSurveyForm () 
 		);
-		
-		
-		
-// 		$repository = $this->getDoctrine()->getRepository('MainBundle:Question');
-		
-// 		$query = $repository->createQueryBuilder('p')
-// 		->where('p.surveyId = :surveyId')
-// 		->orderBy('p.position', 'ASC')
-// 		->setParameter('surveyId', $surveyId)
-// 		->getQuery();
-		
-// 		$questions = $query->getResult();
-		
-// 		$survey = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' )->find ( $surveyId );
-		
-// 		$form = $this->createFormBuilder ();
-// 		$em = $this->getDoctrine ()->getManager ();
-		
-// 		$dq = new DynamicQuestion ( $form, $em );
-		
-// 		foreach ( $questions as $question ) {
-// 			$form = $dq->buildQuestion ( $question );
-// 		}
-		
-// 		$form->setAction ( $this->generateUrl ( 'answer', array (
-// 				'surveyId' => $surveyId 
-// 		) ) );
-// 		$form->add ( 'submit', SubmitType::class, array (
-// 				'label' => "Prześlij",
-// 				'attr' => array (
-// 						'class' => 'btn btn-primary' 
-// 				) 
-// 		) );
-		
-// 		$form = $form->getForm ();
-// 		return array (
-// 				'survey' => $survey,
-// 				'form' => $form->createView () 
-// 		);
 	}
+	
+	/**
+	 * @Route("/thanks/{surveyId}", name="thanks")
+	 * @Template()
+	 */
+	public function thanksAction($surveyId) {
+		$em = $this->getDoctrine ()->getManager ();
+		$survey = $em->getRepository ( 'MainBundle:Survey' )->find ( $surveyId );
+		
+		if (! $survey)
+			throw $this->createNotFoundException ( 'Wskazany zasób nie istnieje' );
+		
+		
+		return array (
+				'survey' => $survey,
+		);
+	}
+	
+	
+	/**
+	 * @Route("/result/{surveyId}", name="result")
+	 * @Template()
+	 */
+	public function resultAction($surveyId) {
+		$em = $this->getDoctrine ()->getManager ();
+		$survey = $em->getRepository ( 'MainBundle:Survey' )->find ($surveyId );
+		$questions = $survey->getQuestions();
+		
+		return array (
+				'questions' => $questions,
+				'survey' => $survey
+		);
+	}
+	
+	
 	
 	/**
 	 * @Route("/surveys/{page}", name="surveys")
 	 * @Template()
 	 */
-	public function surveysAction($page = 1) {	
-				
-		$max = 20;
-		$offset = ($page * $max) - $max;
-		$repository = $this->getDoctrine()->getRepository('MainBundle:Survey');
-		$surveys = $repository->findAllVisibleAndActiveSurveys($max, $offset);
-		$surveysNumber = $repository->numberAllVisibleAndActiveSurveys();
-		$pagesQuantity = ceil($surveysNumber/$max);
+	public function surveysAction($page = 1) {
+		$surveysOnSite = 20;
+		$offset = ($page * $surveysOnSite) - $surveysOnSite;
+		$repository = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' );
+		$surveys = $repository->findAllVisibleAndActiveSurveys ( $surveysOnSite, $offset );
+		$surveysNumber = $repository->numberAllVisibleAndActiveSurveys ();
+		$numberOfPages = ceil ( $surveysNumber / $surveysOnSite );
 		
 		return array (
 				'surveys' => $surveys,
-				'page' => $page,
-				'pagesQuantity' => $pagesQuantity
-				
+				'actualPage' => $page,
+				'numberOfPages' => $numberOfPages 
 		);
 	}
 	
 	/**
-	 * @Route("/newResults/{page}", name="newResults")
+	 * @Route("/surveysResultsA/{page}", name="surveysResults")
 	 * @Template()
 	 */
-	public function resultsAction($page = 1) {
-		$max = 20;
-		$offset = ($page * $max) - $max;
-		$repository = $this->getDoctrine()->getRepository('MainBundle:Survey');
-	
-		$query = $repository->createQueryBuilder('p')
-		->where('p.visibility = :visibility')
-		->orderBy('p.addedDate', 'DESC')
-		->setParameter('visibility', true)
-		->setFirstResult($offset)
-		->setMaxResults($max)
-		->getQuery();
-	
-		$surveys = $query->getResult();
-	
-		$allSurveys = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' )->findAll();
-		$surveysNumber = count ($allSurveys);
-		$pagesQuantity = ceil($surveysNumber/$max);
-	
+	public function surveysResultsAction($page = 1) {
+		$surveysOnSite = 20;
+		$offset = ($page * $surveysOnSite) - $surveysOnSite;
+		$repository = $this->getDoctrine ()->getRepository ( 'MainBundle:Survey' );
+		$surveys = $repository->findAllVisibleAndCompletedSurveys ( $surveysOnSite, $offset );
+		$surveysNumber = $repository->numberAllVisibleAndActiveSurveys ();
+		$numberOfPages = ceil ( $surveysNumber / $surveysOnSite );
+		
 		return array (
 				'surveys' => $surveys,
-				'page' => $page,
-				'pagesQuantity' => $pagesQuantity
-	
+				'actualPage' => $page,
+				'numberOfPages' => $numberOfPages 
 		);
 	}
 	
+	/**
+	 * @Template()
+	 */
+	public function servicesAction() {
+		return array ();
+	}
 	
 }

@@ -2,7 +2,7 @@
 
 
 
-{% block title %}Wyniki{% endblock %}
+{% block title %}Wyniki - {{ survey.title }}{% endblock %}
 
 {% block link %}
   	{{ parent() }}
@@ -10,29 +10,28 @@
 {% endblock %}
 
 {% block container %}
-      <h1>Tytuł ankiety      </h1>    
-       <div class="row">
-            {% for question in questions %}   
-                {{ render(controller('MainBundle:Results:result',{ 'questionId': question.Id })) }}  
-            {% endfor %}  
-     
-       </div> 
-        
-        
-        
-        
-        
-        
+<div class="container">	
+    	<div class="col-md-12 bottom-buffer">
+    			<h1 class="page-header">
+    				{{ survey.title }}				
+    			</h1>
+    			<p>
+    				{{ survey.description }}			
+    			</p>
+    			<p>
+    				Liczba ankietowanych: {{ survey.responesNumber }}			
+    			</p>
+    	</div>
+    {% for question in questions %}   
+        <div class="col-md-6 without-spacing">
+            {{ render(controller('MainBundle:Results:result',{ 'questionId': question.Id })) }}  
+        </div> 
+    {% endfor %}  
+</div>   
 {% endblock %}
 
 
-{% block script %} 
-    
-   
- 
-            
-       
-
+{% block script %}   
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ asset('bundles/main/js/bootstrap.min.js') }}"></script>
 
@@ -48,19 +47,20 @@
     <script src="{{ asset('bundles/main/js/plugins/flot/jquery.flot.resize.js') }}"></script>
     <script src="{{ asset('bundles/main/js/plugins/flot/jquery.flot.pie.js') }}"></script>
     <script src="{{ asset('bundles/main/js/plugins/flot/flot-data.js') }}"></script>
-    {#}        
+           
      <script type="text/javascript"> 
-             $( document ).ready(function() {
-            	    var heights = $(".panel").map(function() {
-            	        return $(this).height();
-            	    }).get(),
-            
-            	    maxHeight = Math.max.apply(null, heights);
-            
-            	    $(".panel").height(maxHeight);
-            	});   
-    </script>
-            #}
+         $( document ).ready(function() {
+        	    var heights = $(".panel").map(function() {
+        	        return $(this).height();
+        	    }).get();
+        
+        	    maxHeight = Math.max.apply(null, heights);
+        
+        	    $(".panel").height(maxHeight);
+       	             
+        	});   
+    </script>     
+        
 {% endblock %}
 
        
